@@ -9,7 +9,7 @@ public class Tower : MonoBehaviour
     public float range;
     public float attackSpeed;
     public float damage;
-    private float attackTimer = 0f;
+    private float attackTimer = 1f;
     private float rotSpeed = 10f;
 
     [Header("References")]
@@ -42,7 +42,6 @@ public class Tower : MonoBehaviour
         //    attackTimer = 1f / attackSpeed;
         //}
         //attackTimer -= Time.deltaTime;
-        Attack();
         if (attackTimer >= attackSpeed)
         {
             Attack();

@@ -6,10 +6,9 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     public GameObject shopPanel;
-    public GameObject tower1Button;
+    public GameObject infoPanel;
 
     private bool shopMenu = true;
-    private bool buyTower1 = true;
 
     public void ShopMenu()
     {
@@ -24,7 +23,7 @@ public class GUIManager : MonoBehaviour
             shopMenu = true;
         }
     }
-    public void BuyTower1()
+    public void TowerPanel()
     {
         if (shopMenu)
         {
@@ -37,4 +36,13 @@ public class GUIManager : MonoBehaviour
             shopMenu = true;
         }
     }
+    public void Tower1InfoEnter()
+    {
+        infoPanel.SetActive(true);
+    }
+    public void Tower1InfoExit()
+    {
+        infoPanel.SetActive(false);
+    }
+
 }
