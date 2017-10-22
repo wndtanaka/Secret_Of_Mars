@@ -11,7 +11,7 @@ public class WaveSpawner : MonoBehaviour
     public Text waveCountdownText;
     public float timeBetweenWaves = 10f;
 
-    private float countdown = 2f;
+    private float countdown = 0f;
     private int waveNumber = 0;
 
     private void Update()

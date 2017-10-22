@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     public Vector3 direction;
 
     public float speed = 50f;
+    public int damage = 20;
 
     public void Fire(Transform enemy)
     {
@@ -17,28 +18,36 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target == null)
-        {
-            Destroy(gameObject);
-            return;
-        }
+
         // Homing
         Vector3 direction = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
         if (direction.magnitude <= distanceThisFrame)
         {
-            TargetHit();
+            DealDamage(target);
             return;
         }
         transform.Translate(direction.normalized * distanceThisFrame, Space.World);
         // Not Homing (Miss)
         //Vector3 velocity = direction.normalized * speed;
         //transform.position += velocity * Time.deltaTime;
+        
     }
-    protected void TargetHit()
+    private void LateUpdate()
     {
-        Debug.Log("Hit!");
-        Destroy(gameObject);
-        Destroy(target.gameObject);
+        if (target == null)
+        {
+            Destroy(gameObject);
+        }
+    }
+    protected void DealDamage(Transform enemy)
+    {
+        Enemy e = enemy.GetComponent<Enemy>();
+
+        if (e != null)
+        {
+            e.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }

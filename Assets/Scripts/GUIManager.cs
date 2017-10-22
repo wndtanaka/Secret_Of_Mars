@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     public GameObject shopPanel;
-    public GameObject infoPanel;
+    public GameObject tower1InfoPanel;
+    public GameObject tower2InfoPanel;
 
     private bool shopMenu = true;
 
@@ -38,11 +39,18 @@ public class GUIManager : MonoBehaviour
     }
     public void Tower1InfoEnter()
     {
-        infoPanel.SetActive(true);
+        tower1InfoPanel.SetActive(true);
     }
     public void Tower1InfoExit()
     {
-        infoPanel.SetActive(false);
+        tower1InfoPanel.SetActive(false);
     }
-
+    public void Tower2InfoEnter()
+    {
+        tower2InfoPanel.SetActive(true);
+    }
+    public void Tower2InfoExit()
+    {
+        tower2InfoPanel.SetActive(false);
+    }
 }

@@ -26,5 +26,16 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.LogError("Set Your Target Prefab!");
         }
+        if (!nav.pathPending)
+        {
+            if (nav.remainingDistance <= nav.stoppingDistance)
+            {
+                if (!nav.hasPath || nav.velocity.sqrMagnitude == 0f)
+                {
+                    Destroy(gameObject);
+                    PlayerStats.curLives--;
+                }
+            }
+        }
     }
 }
