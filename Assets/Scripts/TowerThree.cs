@@ -1,0 +1,62 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TowerThree : Tower
+{
+    public LineRenderer lineRenderer;
+    public bool useLaser = false;
+    protected override void Start()
+    {
+        base.Start();
+        range = 13;
+        attackSpeed = 0.1f;
+        damage = 10;
+    }
+
+    // Update is called once per frame
+    protected override void Update()
+    {
+        if (target == null)
+        {
+            if (useLaser)
+            {
+                if (lineRenderer.enabled)
+                {
+                    lineRenderer.enabled = false;
+                }
+            }
+            return;
+        }
+        // look for target
+        LockOnTarget();
+
+        if (useLaser)
+        {
+            Laser();
+        }
+        else
+        {
+            if (attackTimer >= attackSpeed)
+            {
+                Attack();
+                attackTimer = 0;
+            }
+            attackTimer += Time.deltaTime;
+        }
+    }
+
+    protected override void Attack()
+    {
+        base.Attack();
+    }
+    void Laser()
+    {
+        if (!lineRenderer.enabled)
+        {
+            lineRenderer.enabled = true;
+        }
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, target.position);
+    }
+}

@@ -126,6 +126,11 @@ public class TowerPlacement : MonoBehaviour
         }
         if (EventSystem.current.currentSelectedGameObject.name == "Tower3")
         {
+            if (PlayerStats.curMoney < towerThree.cost)
+            {
+                Debug.Log("Not enough money");
+                return;
+            }
             Debug.Log(EventSystem.current.currentSelectedGameObject.name);
             hasPlaced = false;
             shadowTower = ((GameObject)Instantiate(towerThree.shadowPrefab)).transform;
@@ -179,6 +184,16 @@ public class TowerPlacement : MonoBehaviour
             yield return new WaitForSeconds(buildTime);
             hasPlaced = false;
             currentTower = ((GameObject)Instantiate(towerTwo.prefab, shadowTower.position, shadowTower.rotation)).transform;
+            placeableTower = currentTower.GetComponent<PlaceableTower>();
+            Destroy(shadowTower.gameObject);
+            Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
+        }
+        if (shadowTower.name == "Tower3S(Clone)")
+        {
+            PlayerStats.curMoney -= towerTwo.cost;
+            yield return new WaitForSeconds(buildTime);
+            hasPlaced = false;
+            currentTower = ((GameObject)Instantiate(towerThree.prefab, shadowTower.position, shadowTower.rotation)).transform;
             placeableTower = currentTower.GetComponent<PlaceableTower>();
             Destroy(shadowTower.gameObject);
             Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);

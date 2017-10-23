@@ -8,6 +8,7 @@ public class GUIManager : MonoBehaviour
     public GameObject shopPanel;
     public GameObject tower1InfoPanel;
     public GameObject tower2InfoPanel;
+    public GameObject tower3InfoPanel;
 
     private bool shopMenu = true;
 
@@ -52,5 +53,13 @@ public class GUIManager : MonoBehaviour
     public void Tower2InfoExit()
     {
         tower2InfoPanel.SetActive(false);
+    }
+    public void Tower3InfoEnter()
+    {
+        tower3InfoPanel.SetActive(true);
+    }
+    public void Tower3InfoExit()
+    {
+        tower3InfoPanel.SetActive(false);
     }
 }

@@ -18,7 +18,6 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Homing
         Vector3 direction = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;

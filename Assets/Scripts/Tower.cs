@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    private Transform target;
+    protected Transform target;
     [Header("Tower Attributes")]
     public float range;
     public float attackSpeed;
     public float damage;
-    private float attackTimer = 1f;
-    private float rotSpeed = 10f;
+    protected float attackTimer = 1f;
+    protected float rotSpeed = 10f;
 
     [Header("References")]
     public GameObject bulletPrefab;
     public Transform firePoint;
     public Transform rotCannon;
     private string enemyTag = "Enemy";
-
 
     // Use this for initialization
     protected virtual void Start()
@@ -31,10 +30,7 @@ public class Tower : MonoBehaviour
         if (target == null)
             return;
         // look for target
-        Vector3 direction = target.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Vector3 cannonRotation = Quaternion.Lerp(rotCannon.rotation, lookRotation, Time.deltaTime * rotSpeed).eulerAngles;
-        rotCannon.rotation = Quaternion.Euler(0f, cannonRotation.y, 0f);
+        LockOnTarget();
 
         //if (attackTimer <= 0f)
         //{
@@ -48,6 +44,13 @@ public class Tower : MonoBehaviour
             attackTimer = 0;
         }
         attackTimer += Time.deltaTime;
+    }
+    protected virtual void LockOnTarget()
+    {
+        Vector3 direction = target.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        Vector3 cannonRotation = Quaternion.Lerp(rotCannon.rotation, lookRotation, Time.deltaTime * rotSpeed).eulerAngles;
+        rotCannon.rotation = Quaternion.Euler(0f, cannonRotation.y, 0f);
     }
 
     protected virtual void Attack()

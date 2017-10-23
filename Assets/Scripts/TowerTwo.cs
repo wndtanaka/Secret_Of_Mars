@@ -8,7 +8,7 @@ public class TowerTwo : Tower
     protected override void Start()
     {
         base.Start();
-        range = 10;
+        range = 9;
         attackSpeed = 1;
         damage = 40;
     }
