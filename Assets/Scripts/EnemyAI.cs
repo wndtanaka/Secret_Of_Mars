@@ -7,10 +7,10 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public Transform target;
-
     private NavMeshAgent nav;
+
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
     }

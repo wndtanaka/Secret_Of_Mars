@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
-    private Transform target;
+    protected Transform target;
+    [HideInInspector]
     public Vector3 direction;
 
-    public float speed = 50f;
-    public int damage = 20;
+    public float speed;
+    public int damage;
 
     public void Fire(Transform enemy)
     {

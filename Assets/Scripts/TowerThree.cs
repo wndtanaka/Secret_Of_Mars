@@ -6,6 +6,9 @@ public class TowerThree : Tower
 {
     public LineRenderer lineRenderer;
     public bool useLaser = false;
+    public int damageOverTime = 30;
+    public float slow = 0.5f;
+
     protected override void Start()
     {
         base.Start();
@@ -37,6 +40,7 @@ public class TowerThree : Tower
         }
         else
         {
+            targetEnemy.nav.speed = 10f;
             if (attackTimer >= attackSpeed)
             {
                 Attack();
@@ -52,9 +56,13 @@ public class TowerThree : Tower
     }
     void Laser()
     {
+        targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+        //StartCoroutine(targetEnemy.Slow(slow));
+        targetEnemy.Slow(slow);
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
+            targetEnemy.nav.speed = targetEnemy.startSpeed;
         }
         lineRenderer.SetPosition(0, firePoint.position);
         lineRenderer.SetPosition(1, target.position);

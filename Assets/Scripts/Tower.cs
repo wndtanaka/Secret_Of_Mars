@@ -17,6 +17,7 @@ public class Tower : MonoBehaviour
     public Transform firePoint;
     public Transform rotCannon;
     private string enemyTag = "Enemy";
+    protected Enemy targetEnemy;
 
     // Use this for initialization
     protected virtual void Start()
@@ -56,7 +57,7 @@ public class Tower : MonoBehaviour
     protected virtual void Attack()
     {
         GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation) as GameObject;
-        Projectile projectile = bulletGO.GetComponent<Projectile>();
+        Weapon projectile = bulletGO.GetComponent<Weapon>();
         projectile.direction = target.position - transform.position;
         if (projectile != null)
         {
@@ -81,6 +82,7 @@ public class Tower : MonoBehaviour
         if (nearestEnemy != null && closest <= range)
         {
             target = nearestEnemy.transform;
+            targetEnemy = nearestEnemy.GetComponent<Enemy>();
         }
         else
         {
