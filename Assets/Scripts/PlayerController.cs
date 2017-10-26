@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.gameOver)
+        {
+            this.enabled = false;
+        }
         if (Input.GetMouseButtonDown(1)) // right click
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);

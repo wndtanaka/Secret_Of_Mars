@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject gameOverUI;
 
-    private bool gameOver = false;
+    public static bool gameOver;
 
+    private void Start()
+    {
+        gameOver = false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -19,6 +25,14 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         gameOver = true;
-        Debug.Log("Game Over!");
+        gameOverUI.SetActive(true);
+    }
+    public void Retry()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Menu()
+    {
+        Debug.Log("Back to Main Menu!");
     }
 }

@@ -34,7 +34,6 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetMouseButton(2))
         {
-            Debug.Log("Middle Mouse Clicked!");
             currentX += Input.GetAxis("Mouse X") * sensitivityX * Time.deltaTime;
         }
     }

@@ -57,8 +57,8 @@ public class TowerThree : Tower
     void Laser()
     {
         targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
-        //StartCoroutine(targetEnemy.Slow(slow));
-        targetEnemy.Slow(slow);
+        StartCoroutine(targetEnemy.Slow(slow));
+        //targetEnemy.Slow(slow);
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;

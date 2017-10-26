@@ -6,9 +6,8 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public float startSpeed = 10;
-    public float slowSpeed;
     public float health = 50;
-    public int loot = 10;
+    public int loot = 25;
     private bool isDead = false;
     public NavMeshAgent nav;
 
@@ -32,10 +31,17 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
     }
-    public void Slow(float slow)
+    public IEnumerator Slow(float slow)
     {
         nav.speed = startSpeed * (1f - slow);
-        //yield return new WaitForSeconds(3);
-        //nav.speed = startSpeed;
+        yield return new WaitForSeconds(3);
+        if (nav == null)
+        {
+            yield break;
+        }
+        else
+        {
+            nav.speed = startSpeed;
+        }
     }
 }

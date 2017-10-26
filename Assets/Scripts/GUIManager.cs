@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     public GameObject shopPanel;
-    public GameObject tower1InfoPanel;
-    public GameObject tower2InfoPanel;
-    public GameObject tower3InfoPanel;
+    public GameObject[] infoPanel;
+
+    public Animator anim;
 
     private bool shopMenu = true;
 
@@ -16,13 +16,17 @@ public class GUIManager : MonoBehaviour
     {
         if (shopMenu)
         {
+            anim.SetBool("isShopOpen", false);
             shopPanel.SetActive(true);
             shopMenu = false;
+            
         }
         else
         {
+            anim.SetBool("isShopOpen", true);
             shopPanel.SetActive(false);
             shopMenu = true;
+            
         }
     }
     public void TowerPanel()
@@ -38,28 +42,62 @@ public class GUIManager : MonoBehaviour
             shopMenu = true;
         }
     }
+    #region Info Panel
     public void Tower1InfoEnter()
     {
-        tower1InfoPanel.SetActive(true);
+        infoPanel[0].SetActive(true);
     }
     public void Tower1InfoExit()
     {
-        tower1InfoPanel.SetActive(false);
+        infoPanel[0].SetActive(false);
     }
     public void Tower2InfoEnter()
     {
-        tower2InfoPanel.SetActive(true);
+        infoPanel[1].SetActive(true);
     }
     public void Tower2InfoExit()
     {
-        tower2InfoPanel.SetActive(false);
+        infoPanel[1].SetActive(false);
     }
     public void Tower3InfoEnter()
     {
-        tower3InfoPanel.SetActive(true);
+        infoPanel[2].SetActive(true);
     }
     public void Tower3InfoExit()
     {
-        tower3InfoPanel.SetActive(false);
+        infoPanel[2].SetActive(false);
     }
+    public void Tower4InfoEnter()
+    {
+        infoPanel[3].SetActive(true);
+    }
+    public void Tower4InfoExit()
+    {
+        infoPanel[3].SetActive(false);
+    }
+    public void Tower5InfoEnter()
+    {
+        infoPanel[4].SetActive(true);
+    }
+    public void Tower5InfoExit()
+    {
+        infoPanel[4].SetActive(false);
+    }
+    public void Tower6InfoEnter()
+    {
+        infoPanel[5].SetActive(true);
+    }
+    public void Tower6InfoExit()
+    {
+        infoPanel[5].SetActive(false);
+    }
+    public void Tower7InfoEnter()
+    {
+        infoPanel[6].SetActive(true);
+    }
+    public void Tower7InfoExit()
+    {
+        infoPanel[6].SetActive(false);
+    }
+    #endregion
 }
