@@ -65,7 +65,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    void UpdateTarget()
+    protected virtual void UpdateTarget()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         float closest = Mathf.Infinity;

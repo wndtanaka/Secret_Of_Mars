@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class WeaponAxe : Weapon
 {
-    // Use this for initialization
-    void Start()
+    public override void Fire(Transform enemy)
     {
-
+        target = enemy;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void LateUpdate()
     {
+        if (target == null)
+        {
+            Destroy(gameObject);
+        }
+    }
+    protected override void DealDamage(Transform enemy)
+    {
+        Enemy e = enemy.GetComponent<Enemy>();
 
+        if (e != null)
+        {
+            e.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }

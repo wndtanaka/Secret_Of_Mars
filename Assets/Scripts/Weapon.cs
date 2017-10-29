@@ -11,13 +11,13 @@ public class Weapon : MonoBehaviour
     public float speed;
     public int damage;
 
-    public void Fire(Transform enemy)
+    public virtual void Fire(Transform enemy)
     {
         target = enemy;
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         // Homing
         Vector3 direction = target.position - transform.position;
@@ -33,14 +33,14 @@ public class Weapon : MonoBehaviour
         //transform.position += velocity * Time.deltaTime;
         
     }
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
         if (target == null)
         {
             Destroy(gameObject);
         }
     }
-    protected void DealDamage(Transform enemy)
+    protected virtual void DealDamage(Transform enemy)
     {
         Enemy e = enemy.GetComponent<Enemy>();
 
