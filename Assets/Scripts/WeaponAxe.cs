@@ -8,22 +8,53 @@ public class WeaponAxe : Weapon
     {
         target = enemy;
     }
-
-    protected override void LateUpdate()
+    protected override void DealDamage(Transform enemy)
     {
         if (target == null)
         {
-            Destroy(gameObject);
+            return;
         }
-    }
-    protected override void DealDamage(Transform enemy)
-    {
         Enemy e = enemy.GetComponent<Enemy>();
 
         if (e != null)
         {
             e.TakeDamage(damage);
-            Destroy(gameObject);
+        }
+        
+    }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Enemy")
+        {
+            DealDamage(target);
+        }
+
+    }
+    protected override void Update()
+    {
+        if (target == null)
+        {
+            return;
+        }
+        // Homing
+        //direction = target.position - transform.position;
+        //float distanceThisFrame = speed * Time.deltaTime;
+        //if (direction.magnitude <= distanceThisFrame)
+        //{
+        //    DealDamage(target);
+        //    return;
+        //}
+        //transform.Translate(direction.normalized * distanceThisFrame, Space.World);
+
+        // Not Homing (Miss)
+        Vector3 velocity = direction.normalized * speed;
+        transform.position += velocity * Time.deltaTime;
+    }
+    protected override void LateUpdate()
+    {
+        if (target == null)
+        {
+            return;
         }
     }
 }

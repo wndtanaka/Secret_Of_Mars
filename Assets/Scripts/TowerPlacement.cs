@@ -17,7 +17,7 @@ public class TowerPlacement : MonoBehaviour
     private RaycastHit hit;
     private Ray ray;
 
-    public TowerManagement[] Towers;
+    public TowerManagement[] towers;
 
     void Start()
     {
@@ -96,106 +96,38 @@ public class TowerPlacement : MonoBehaviour
     }
     public void BuyTower()
     {
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower1")
+        for (int i = 0; i < towers.Length; i++)
         {
-            if (PlayerStats.curMoney < Towers[0].cost)
+            if (EventSystem.current.currentSelectedGameObject.name == ("Tower" + i.ToString()))
             {
-                Debug.Log("Not enough money");
-                // TODO Pop up text
-                return;
+                if (PlayerStats.curMoney < towers[i].cost)
+                {
+                    Debug.Log("Not enough money");
+                    // TODO Pop up text
+                    return;
+                }
+                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+                hasPlaced = false;
+                shadowTower = ((GameObject)Instantiate(towers[i].shadowPrefab)).transform;
+                placeableTower = shadowTower.GetComponent<PlaceableTower>();
             }
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[0].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
-        }
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower2")
-        {
-            if (PlayerStats.curMoney < Towers[1].cost)
-            {
-                Debug.Log("Not enough money");
-                // TODO Pop up text
-                return;
-            }
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[1].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
-        }
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower3")
-        {
-            if (PlayerStats.curMoney < Towers[2].cost)
-            {
-                Debug.Log("Not enough money");
-                // TODO Pop up text
-                return;
-            }
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[2].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
-        }
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower4")
-        {
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[3].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
-        }
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower5")
-        {
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[4].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
-        }
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower6")
-        {
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[5].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
-        }
-        if (EventSystem.current.currentSelectedGameObject.name == "Tower7")
-        {
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-            hasPlaced = false;
-            shadowTower = ((GameObject)Instantiate(Towers[6].shadowPrefab)).transform;
-            placeableTower = shadowTower.GetComponent<PlaceableTower>();
         }
     }
     IEnumerator PlacingTower()
     {
-
-        if (shadowTower.name == "Tower1S(Clone)")
+        for (int i = 0; i < towers.Length; i++)
         {
-            PlayerStats.curMoney -= Towers[0].cost;
-            yield return new WaitForSeconds(buildTime);
-            hasPlaced = false;
-            currentTower = ((GameObject)Instantiate(Towers[0].prefab, shadowTower.position, shadowTower.rotation)).transform;
-            placeableTower = currentTower.GetComponent<PlaceableTower>();
-            Destroy(shadowTower.gameObject);
-            Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
+            if (shadowTower.name == "Tower"+i.ToString()+"S(Clone)")
+            {
+                PlayerStats.curMoney -= towers[i].cost;
+                yield return new WaitForSeconds(buildTime);
+                hasPlaced = false;
+                currentTower = ((GameObject)Instantiate(towers[i].prefab, shadowTower.position, shadowTower.rotation)).transform;
+                placeableTower = currentTower.GetComponent<PlaceableTower>();
+                Destroy(shadowTower.gameObject);
+                Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
+            }
         }
-        if (shadowTower.name == "Tower2S(Clone)")
-        {
-            PlayerStats.curMoney -= Towers[1].cost;
-            yield return new WaitForSeconds(buildTime);
-            hasPlaced = false;
-            currentTower = ((GameObject)Instantiate(Towers[1].prefab, shadowTower.position, shadowTower.rotation)).transform;
-            placeableTower = currentTower.GetComponent<PlaceableTower>();
-            Destroy(shadowTower.gameObject);
-            Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
-        }
-        if (shadowTower.name == "Tower3S(Clone)")
-        {
-            PlayerStats.curMoney -= Towers[2].cost;
-            yield return new WaitForSeconds(buildTime);
-            hasPlaced = false;
-            currentTower = ((GameObject)Instantiate(Towers[2].prefab, shadowTower.position, shadowTower.rotation)).transform;
-            placeableTower = currentTower.GetComponent<PlaceableTower>();
-            Destroy(shadowTower.gameObject);
-            Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
-        }
+        
     }
 }

@@ -5,8 +5,9 @@ using UnityEngine;
 public class TowerOne : Tower
 {
     Animator anim;
-    WeaponAxe axe;
+    public WeaponAxe axe;
     // Use this for initialization
+
     protected override void Start()
     {
         anim = GetComponent<Animator>();
@@ -39,19 +40,11 @@ public class TowerOne : Tower
 
     protected override void Attack()
     {
-        anim.SetBool("isAttack", true);
         axe.Fire(target);
-        
+        anim.SetBool("isAttack", true);
     }
     protected override void UpdateTarget()
     {
         base.UpdateTarget();
-    }
-    private void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.tag =="Enemy")
-        {
-            anim.SetTrigger("isAttack");
-        }
     }
 }

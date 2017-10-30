@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public float startSpeed = 10;
+    public float startSpeed = 3;
     public float health = 50;
     public int loot = 25;
     private bool isDead = false;

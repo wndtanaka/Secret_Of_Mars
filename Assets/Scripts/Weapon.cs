@@ -19,8 +19,12 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (target == null)
+        {
+            return;
+        }
         // Homing
-        Vector3 direction = target.position - transform.position;
+        direction = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
         if (direction.magnitude <= distanceThisFrame)
         {
@@ -28,6 +32,7 @@ public class Weapon : MonoBehaviour
             return;
         }
         transform.Translate(direction.normalized * distanceThisFrame, Space.World);
+
         // Not Homing (Miss)
         //Vector3 velocity = direction.normalized * speed;
         //transform.position += velocity * Time.deltaTime;

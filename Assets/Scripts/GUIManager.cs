@@ -19,7 +19,6 @@ public class GUIManager : MonoBehaviour
             anim.SetBool("isShopOpen", false);
             shopPanel.SetActive(true);
             shopMenu = false;
-            
         }
         else
         {
