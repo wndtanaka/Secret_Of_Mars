@@ -9,7 +9,8 @@ public class TowerPlacement : MonoBehaviour
     public int buildTime = 3;
 
     private Transform currentTower;
-    private Transform shadowTower;
+    [HideInInspector]
+    public Transform shadowTower;
     private bool hasPlaced = true;
     private PlaceableTower placeableTower;
     private PlaceableTower oldPlaceableTower;
@@ -36,12 +37,18 @@ public class TowerPlacement : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~towerMask, QueryTriggerInteraction.Collide))
             {
-                shadowTower.position = hit.transform.position + Vector3.up * 0.5f;
+                shadowTower.position = hit.transform.position + Vector3.up * 0f;
+                if (hit.collider.tag == "Platform")
+                {
+                    shadowTower.gameObject.SetActive(true);
+                }
+                else
+                {
+                    shadowTower.gameObject.SetActive(false);
+                }
             }
-
             if (Input.GetMouseButtonDown(0))
             {
-
                 if (IsLegalPosition())
                 {
                     hasPlaced = true;
@@ -61,6 +68,11 @@ public class TowerPlacement : MonoBehaviour
                     // TODO Pop up text
                 }
             }
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log("Cancel Build");
+                Destroy(shadowTower.gameObject);
+            }
         }
         else
         {
@@ -75,12 +87,14 @@ public class TowerPlacement : MonoBehaviour
                     }
                     hit.collider.gameObject.GetComponent<PlaceableTower>().SetSelected(true);
                     oldPlaceableTower = hit.collider.gameObject.GetComponent<PlaceableTower>();
+                    oldPlaceableTower.TowerUI(hit.transform.position);
                 }
                 else
                 {
                     if (oldPlaceableTower != null)
                     {
                         oldPlaceableTower.SetSelected(false);
+                        oldPlaceableTower.TowerUI(Vector3.zero);
                     }
                 }
             }
@@ -117,7 +131,7 @@ public class TowerPlacement : MonoBehaviour
     {
         for (int i = 0; i < towers.Length; i++)
         {
-            if (shadowTower.name == "Tower"+i.ToString()+"S(Clone)")
+            if (shadowTower.name == "Tower" + i.ToString() + "S(Clone)")
             {
                 PlayerStats.curMoney -= towers[i].cost;
                 yield return new WaitForSeconds(buildTime);
@@ -128,6 +142,6 @@ public class TowerPlacement : MonoBehaviour
                 Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
             }
         }
-        
+
     }
 }

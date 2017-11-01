@@ -7,10 +7,18 @@ public class GUIManager : MonoBehaviour
 {
     public GameObject shopPanel;
     public GameObject[] infoPanel;
+    public GameObject cancelButton;
+    public GameObject shopButton;
 
     public Animator anim;
 
     private bool shopMenu = true;
+    //TowerPlacement build;
+
+    private void Awake()
+    {
+        //build = GameObject.Find("Shop").GetComponent<TowerPlacement>();
+    }
 
     public void ShopMenu()
     {
@@ -33,11 +41,15 @@ public class GUIManager : MonoBehaviour
         if (shopMenu)
         {
             shopPanel.SetActive(true);
+            //shopButton.SetActive(true);
+            //cancelButton.SetActive(false);
             shopMenu = false;
         }
         else
         {
             shopPanel.SetActive(false);
+            //shopButton.SetActive(false);
+            //cancelButton.SetActive(true);
             shopMenu = true;
         }
     }
@@ -99,4 +111,9 @@ public class GUIManager : MonoBehaviour
         infoPanel[6].SetActive(false);
     }
     #endregion
+    public void CancelBuild()
+    {
+        cancelButton.SetActive(false);
+        shopButton.SetActive(true);        
+    }
 }

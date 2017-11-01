@@ -10,17 +10,17 @@ public class TowerTwo : Tower
         base.Start();
         range = 7;
         attackSpeed = 1;
-        damage = 20;
-    }
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        base.Update();
+        damage = 15;
     }
 
     protected override void Attack()
     {
-        base.Attack();
+        GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation) as GameObject;
+        WeaponLance projectile = bulletGO.GetComponent<WeaponLance>();
+        projectile.direction = target.position - transform.position;
+        if (projectile != null)
+        {
+            projectile.Fire(target);
+        }
     }
 }

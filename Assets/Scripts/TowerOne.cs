@@ -14,7 +14,7 @@ public class TowerOne : Tower
         base.Start();
         range = 5;
         attackSpeed = 0.5f;
-        damage = 100;
+        damage = 25;
 
     }
 

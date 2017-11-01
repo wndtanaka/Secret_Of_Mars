@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
-    public Transform target;
+    public Transform EndPoint;
     private NavMeshAgent nav;
 
     // Use this for initialization
@@ -18,13 +18,13 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target != null)
+        if (EndPoint != null)
         {
-            nav.SetDestination(target.position);
+            nav.SetDestination(EndPoint.position);
         }
         else
         {
-            Debug.LogError("Set Your Target Prefab!");
+            Debug.LogError("Set Your EndPoint Prefab!");
         }
         if (!nav.pathPending)
         {

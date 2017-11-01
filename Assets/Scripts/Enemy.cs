@@ -31,10 +31,10 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
     }
-    public IEnumerator Slow(float slow)
+    public IEnumerator Slow(float slow, int slowTime)
     {
         nav.speed = startSpeed * (1f - slow);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(slowTime);
         if (nav == null)
         {
             yield break;
