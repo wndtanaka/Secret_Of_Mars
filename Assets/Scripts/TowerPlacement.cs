@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class TowerPlacement : MonoBehaviour
 {
     public LayerMask towerMask;
-    public int buildTime = 3;
+    private int buildTime = 1;
 
     private Transform currentTower;
     [HideInInspector]
@@ -19,6 +19,8 @@ public class TowerPlacement : MonoBehaviour
     private Ray ray;
 
     public TowerManagement[] towers;
+
+    private bool ui = false;
 
     void Start()
     {
@@ -79,15 +81,30 @@ public class TowerPlacement : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
 
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, towerMask)) // if we click on tower
                 {
-                    if (oldPlaceableTower != null)
+                    if (!ui)
                     {
-                        oldPlaceableTower.SetSelected(false);
+                        if (oldPlaceableTower != null)
+                        {
+                            oldPlaceableTower.SetSelected(false);
+                            oldPlaceableTower.HideUI();
+                        }
+                        hit.collider.gameObject.GetComponent<PlaceableTower>().SetSelected(true);
+                        oldPlaceableTower = hit.collider.gameObject.GetComponent<PlaceableTower>();
+                        oldPlaceableTower.TowerUI(hit.transform.position);
+
+                        ui = true;
                     }
-                    hit.collider.gameObject.GetComponent<PlaceableTower>().SetSelected(true);
-                    oldPlaceableTower = hit.collider.gameObject.GetComponent<PlaceableTower>();
-                    oldPlaceableTower.TowerUI(hit.transform.position);
+                    else
+                    {
+                        if (oldPlaceableTower != null)
+                        {
+                            oldPlaceableTower.SetSelected(false);
+                            oldPlaceableTower.HideUI();
+                        }
+                        ui = false;
+                    }
                 }
                 else
                 {

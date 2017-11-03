@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
             Die();
         }
     }
-    void Die()
+    protected virtual void Die()
     {
         PlayerStats.curMoney += loot;
         isDead = true;

@@ -6,18 +6,15 @@ public class PlaceableTower : MonoBehaviour
 {
     [HideInInspector]
     public List<Collider> colliders = new List<Collider>();
-    public GameObject towerUI;
 
+    public GameObject towerUI;
     private bool isSelected;
     private bool selectMenu;
 
-    //void OnGUI()
-    //{
-    //    if (isSelected)
-    //    {
-    //        GUI.Button(new Rect(100, 200, 100, 30), name);
-    //    }
-    //}
+    private void Start()
+    {
+        towerUI = GameObject.FindGameObjectWithTag("TowerUI");
+    }
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Tower")
@@ -42,7 +39,6 @@ public class PlaceableTower : MonoBehaviour
         if (isSelected)
         {
             towerUI.SetActive(true);
-            Debug.Log("UI please");
             towerUI.transform.position = pos + (Vector3.up * 5f) + (Vector3.forward * 1f);
         }
         else
@@ -50,7 +46,11 @@ public class PlaceableTower : MonoBehaviour
             towerUI.SetActive(false);
         }
     }
-    private void Update()
+    public void HideUI()
+    {
+        towerUI.SetActive(false);
+    }
+    private void LateUpdate()
     {
         towerUI.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Camera.main.transform.up);
     }
