@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class TowerPlacement : MonoBehaviour
 {
     public LayerMask towerMask;
-    public int buildTime = 3;
+    private int buildTime = 1;
 
     private Transform currentTower;
     [HideInInspector]

@@ -17,6 +17,9 @@ public class CameraController : MonoBehaviour
     private float currentZoom = 10f;
     private float currentX = 0f;
 
+    public Camera cam;
+    float shakeAmount;
+
     private void Update()
     {
         CameraFollow();
@@ -25,6 +28,8 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+            Shake(0.1f, 0.2f);
         LateCameraFollow();
     }
     public void CameraFollow()
@@ -43,23 +48,49 @@ public class CameraController : MonoBehaviour
         transform.LookAt(target.position + Vector3.up * pitch);
         transform.RotateAround(target.position, Vector3.up, currentX);
     }
-    public void CameraPan()
+    public void Shake(float amount, float length)
     {
-        if (Input.mousePosition.y >= Screen.height - panBorder)
+        shakeAmount = amount;
+
+        InvokeRepeating("StartShake", 0f, 0.01f);
+        Invoke("StopShake", length);
+    }
+    void StartShake()
+    {
+        if (shakeAmount >= 0)
         {
-            transform.Translate(Vector3.forward * panSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.mousePosition.y <= panBorder)
-        {
-            transform.Translate(Vector3.back * panSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.mousePosition.x >= Screen.width - panBorder)
-        {
-            transform.Translate(Vector3.right * panSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.mousePosition.x <= panBorder)
-        {
-            transform.Translate(Vector3.left * panSpeed * Time.deltaTime, Space.World);
+            Vector3 camPos = cam.transform.position;
+
+            float shakeX = Random.Range(-1, 1) * shakeAmount * 5 - shakeAmount;
+            float shakeY = Random.Range(-1, 1) * shakeAmount * 5 - shakeAmount;
+            camPos.x += shakeX;
+            camPos.y += shakeY;
+
+            cam.transform.position = camPos;
         }
     }
+    void StopShake()
+    {
+        CancelInvoke("StartShake");
+        cam.transform.localPosition = offset;
+    }
+    //public void CameraPan()
+    //{
+    //    if (Input.mousePosition.y >= Screen.height - panBorder)
+    //    {
+    //        transform.Translate(Vector3.forward * panSpeed * Time.deltaTime, Space.World);
+    //    }
+    //    if (Input.mousePosition.y <= panBorder)
+    //    {
+    //        transform.Translate(Vector3.back * panSpeed * Time.deltaTime, Space.World);
+    //    }
+    //    if (Input.mousePosition.x >= Screen.width - panBorder)
+    //    {
+    //        transform.Translate(Vector3.right * panSpeed * Time.deltaTime, Space.World);
+    //    }
+    //    if (Input.mousePosition.x <= panBorder)
+    //    {
+    //        transform.Translate(Vector3.left * panSpeed * Time.deltaTime, Space.World);
+    //    }
+    //}
 }

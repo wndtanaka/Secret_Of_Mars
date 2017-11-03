@@ -41,6 +41,7 @@ public class PlaceableTower : MonoBehaviour
     {
         if (isSelected)
         {
+            
             towerUI.SetActive(true);
             Debug.Log("UI please");
             towerUI.transform.position = pos + (Vector3.up * 5f) + (Vector3.forward * 1f);

@@ -8,11 +8,16 @@ public class EnemyAI : MonoBehaviour
 {
     public Transform EndPoint;
     private NavMeshAgent nav;
+    CameraController camShake;
 
     // Use this for initialization
     void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
+    }
+    void Start()
+    {
+        camShake = Camera.main.GetComponent<CameraController>();
     }
 
     // Update is called once per frame
@@ -34,6 +39,7 @@ public class EnemyAI : MonoBehaviour
                 {
                     Destroy(gameObject);
                     PlayerStats.curLives--;
+                    camShake.Shake(0.1f,0.2f);
                 }
             }
         }
