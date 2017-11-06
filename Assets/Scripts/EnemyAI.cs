@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
+//[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
     public Transform EndPoint;
@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
         if (EndPoint != null)
         {
             nav.SetDestination(EndPoint.position);
+            nav.updateRotation = false;
         }
         else
         {
