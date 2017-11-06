@@ -9,5 +9,10 @@ public class TowerManagement
     public GameObject shadowPrefab;
     public GameObject prefab;
     public int cost;
-    //public int upgradeCost;
+
+    public GameObject level2Prefab;
+    public int level2Cost;
+
+    public GameObject level3Prefab;
+    public int level3Cost;
 }

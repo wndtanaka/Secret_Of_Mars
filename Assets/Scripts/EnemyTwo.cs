@@ -12,6 +12,7 @@ public class EnemyTwo : Enemy
         for (int i = 0; i < 3; i++)
         {
             Instantiate(wormPrefab, (Random.insideUnitSphere * spawnRadius) + transform.position, transform.rotation);
+            WaveSpawner.numberOfEnemies++;
         }
     }
     void OnDrawGizmos()

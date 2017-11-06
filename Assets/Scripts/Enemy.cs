@@ -2,24 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     public float startSpeed = 3;
-    public float health = 50;
+    public float startHealth = 50;
+    private float health;
     public int loot = 25;
     private bool isDead = false;
     public NavMeshAgent nav;
 
+    public Image healthBar;
+    public GameObject enemyHealthBar;
+
     private void Start()
     {
+        health = startHealth;
         nav = GetComponent<NavMeshAgent>();
         nav.speed = startSpeed;
+        //healthBar = GetComponentInChildren<Image>();
     }
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0 && !isDead)
+        startHealth -= damage;
+
+        healthBar.fillAmount = startHealth / health;
+
+        if (startHealth <= 0 && !isDead)
         {
             Die();
         }
@@ -30,6 +40,7 @@ public class Enemy : MonoBehaviour
         isDead = true;
 
         Destroy(gameObject);
+        WaveSpawner.numberOfEnemies--;
     }
     public IEnumerator Slow(float slow, int slowTime)
     {
@@ -43,5 +54,9 @@ public class Enemy : MonoBehaviour
         {
             nav.speed = startSpeed;
         }
+    }
+    void Update()
+    {
+        enemyHealthBar.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Camera.main.transform.up);
     }
 }

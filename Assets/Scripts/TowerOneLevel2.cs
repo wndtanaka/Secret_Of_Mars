@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerOne : Tower
+public class TowerOneLevel2 : Tower
 {
     Animator anim;
     public WeaponAxe left;
+    public WeaponAxe right;
     // Use this for initialization
 
     protected override void Start()
@@ -40,6 +41,7 @@ public class TowerOne : Tower
     protected override void Attack()
     {
         left.Fire(target);
+        right.Fire(target);
         anim.SetBool("isAttack", true);
     }
     protected override void UpdateTarget()

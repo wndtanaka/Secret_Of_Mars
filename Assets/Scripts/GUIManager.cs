@@ -13,11 +13,11 @@ public class GUIManager : MonoBehaviour
     public Animator anim;
 
     private bool shopMenu = true;
-    //TowerPlacement build;
+    TowerPlacement build;
 
     private void Awake()
     {
-        //build = GameObject.Find("Shop").GetComponent<TowerPlacement>();
+        build = GameObject.Find("Shop").GetComponent<TowerPlacement>();
     }
 
     public void ShopMenu()
@@ -42,14 +42,14 @@ public class GUIManager : MonoBehaviour
         {
             shopPanel.SetActive(true);
             //shopButton.SetActive(true);
-            //cancelButton.SetActive(false);
+            cancelButton.SetActive(false);
             shopMenu = false;
         }
         else
         {
             shopPanel.SetActive(false);
             //shopButton.SetActive(false);
-            //cancelButton.SetActive(true);
+            cancelButton.SetActive(true);
             shopMenu = true;
         }
     }
@@ -114,6 +114,7 @@ public class GUIManager : MonoBehaviour
     public void CancelBuild()
     {
         cancelButton.SetActive(false);
-        shopButton.SetActive(true);        
+        //shopButton.SetActive(true);
+        Destroy(build.shadowTower.gameObject);
     }
 }

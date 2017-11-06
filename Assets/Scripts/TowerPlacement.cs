@@ -9,6 +9,7 @@ public class TowerPlacement : MonoBehaviour
     private int buildTime = 1;
 
     private Transform currentTower;
+    private Transform level2Tower;
     [HideInInspector]
     public Transform shadowTower;
     private bool hasPlaced = true;
@@ -21,6 +22,8 @@ public class TowerPlacement : MonoBehaviour
     public TowerManagement[] towers;
 
     private bool ui = false;
+
+    public GUIManager gui;
 
     void Start()
     {
@@ -70,11 +73,6 @@ public class TowerPlacement : MonoBehaviour
                     // TODO Pop up text
                 }
             }
-            if (Input.GetMouseButtonDown(1))
-            {
-                Debug.Log("Cancel Build");
-                Destroy(shadowTower.gameObject);
-            }
         }
         else
         {
@@ -85,14 +83,14 @@ public class TowerPlacement : MonoBehaviour
                 {
                     if (!ui)
                     {
-                        if (oldPlaceableTower != null)
-                        {
-                            oldPlaceableTower.SetSelected(false);
-                            oldPlaceableTower.HideUI();
-                        }
+                        //if (oldPlaceableTower != null)
+                        //{
+                        //    oldPlaceableTower.SetSelected(false);
+                        //    //oldPlaceableTower.HideUI();
+                        //}
                         hit.collider.gameObject.GetComponent<PlaceableTower>().SetSelected(true);
                         oldPlaceableTower = hit.collider.gameObject.GetComponent<PlaceableTower>();
-                        oldPlaceableTower.TowerUI(hit.transform.position);
+                        //oldPlaceableTower.TowerUI(hit.transform.position);
 
                         ui = true;
                     }
@@ -101,22 +99,24 @@ public class TowerPlacement : MonoBehaviour
                         if (oldPlaceableTower != null)
                         {
                             oldPlaceableTower.SetSelected(false);
-                            oldPlaceableTower.HideUI();
+                            //oldPlaceableTower.HideUI();
                         }
                         ui = false;
                     }
+
                 }
                 else
                 {
                     if (oldPlaceableTower != null)
                     {
                         oldPlaceableTower.SetSelected(false);
-                        oldPlaceableTower.TowerUI(Vector3.zero);
+                        //oldPlaceableTower.TowerUI(Vector3.zero);
                     }
                 }
             }
         }
     }
+
     bool IsLegalPosition()
     {
         if (placeableTower.colliders.Count > 0 || hit.collider.tag != "Platform")
@@ -134,10 +134,10 @@ public class TowerPlacement : MonoBehaviour
                 if (PlayerStats.curMoney < towers[i].cost)
                 {
                     Debug.Log("Not enough money");
+                    gui.cancelButton.SetActive(false);
                     // TODO Pop up text
                     return;
                 }
-                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
                 hasPlaced = false;
                 shadowTower = ((GameObject)Instantiate(towers[i].shadowPrefab)).transform;
                 placeableTower = shadowTower.GetComponent<PlaceableTower>();
@@ -157,8 +157,37 @@ public class TowerPlacement : MonoBehaviour
                 placeableTower = currentTower.GetComponent<PlaceableTower>();
                 Destroy(shadowTower.gameObject);
                 Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
+                gui.cancelButton.SetActive(false);
             }
         }
+
+    }
+    public void UpgradeTower(GameObject towerToUpgrade)
+    {
+        for (int i = 1; i < towers.Length; i++)
+        {
+            if (currentTower.name == "Tower" + i.ToString() + "(Clone)")
+            {
+                if (PlayerStats.curMoney < towers[i].level2Cost)
+                {
+                    Debug.Log("No Money");
+                    return;
+                }
+                else
+                {
+                    level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, currentTower.position, currentTower.rotation)).transform;
+                    placeableTower = level2Tower.GetComponent<PlaceableTower>();
+                    Destroy(currentTower.gameObject);
+                }
+            }
+            else
+            {
+                Debug.Log("NotGood");
+            }
+        }
+    }
+    private void OnMouseDown()
+    {
 
     }
 }
