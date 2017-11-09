@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
 
     private Renderer rend;
     private Color startColor;
-    void Start()
+    void Awake()
     {
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;

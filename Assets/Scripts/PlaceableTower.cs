@@ -7,14 +7,14 @@ public class PlaceableTower : MonoBehaviour
     [HideInInspector]
     public List<Collider> colliders = new List<Collider>();
 
-    //public GameObject towerUI;
+    public TowerPlacement towerPlacement;
+
     private bool isSelected;
 
-    private void Start()
+    void Start()
     {
-        //towerUI = GameObject.FindGameObjectWithTag("TowerUI");
+        towerPlacement = GameObject.FindGameObjectWithTag("ShopPanel").GetComponent<TowerPlacement>();
     }
-
     private void OnGUI()
     {
         float scrW = Screen.width / 16;
@@ -22,15 +22,18 @@ public class PlaceableTower : MonoBehaviour
 
         if (isSelected)
         {
-            if (GUI.Button(new Rect(5 * scrW, 5 * scrH, scrW * 1.25f, scrH * 0.5f), "Upgrade"))
+            if (GUI.Button(new Rect(8 * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f), "Upgrade"))
             {
-                Debug.Log("Upgrade");
                 isSelected = false;
+                TowerPlacement.ui = false;
+                towerPlacement.UpgradeTower();
             }
-            if (GUI.Button(new Rect(6.25f * scrW, 5 * scrH, scrW * 1.25f, scrH * 0.5f), "Sell"))
+            if (GUI.Button(new Rect(9.25f * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f), "Sell"))
             {
                 Debug.Log("Sell");
                 isSelected = false;
+                TowerPlacement.ui = false;
+                towerPlacement.SellTower();
             }
         }
     }
@@ -52,25 +55,4 @@ public class PlaceableTower : MonoBehaviour
     {
         isSelected = select;
     }
-    //public void TowerUI(Vector3 pos)
-    //{
-    //    if (isSelected)
-    //    {
-
-    //        towerUI.SetActive(true);
-    //        towerUI.transform.position = pos + (Vector3.up * 5f) + (Vector3.forward * 1f);
-    //    }
-    //    else
-    //    {
-    //        towerUI.SetActive(false);
-    //    }
-    //}
-    //public void HideUI()
-    //{
-    //    towerUI.SetActive(false);
-    //}
-    //private void LateUpdate()
-    //{
-    //    towerUI.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Camera.main.transform.up);
-    //}
 }

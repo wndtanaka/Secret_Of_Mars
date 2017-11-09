@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TowerPlacement : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class TowerPlacement : MonoBehaviour
     private Transform currentTower;
     private Transform level2Tower;
     [HideInInspector]
+    public Transform level3Tower;
+    [HideInInspector]
     public Transform shadowTower;
     private bool hasPlaced = true;
     private PlaceableTower placeableTower;
@@ -18,12 +21,15 @@ public class TowerPlacement : MonoBehaviour
     private Camera cam;
     private RaycastHit hit;
     private Ray ray;
+    private Renderer[] shadowRend;
 
     public TowerManagement[] towers;
-
-    private bool ui = false;
+    [HideInInspector]
+    public static bool ui = false;
 
     public GUIManager gui;
+    public Text popupMessage;
+
 
     void Start()
     {
@@ -31,7 +37,6 @@ public class TowerPlacement : MonoBehaviour
     }
     void Update()
     {
-
         ray = cam.ScreenPointToRay(Input.mousePosition);
 
         if (EventSystem.current.IsPointerOverGameObject())
@@ -45,11 +50,19 @@ public class TowerPlacement : MonoBehaviour
                 shadowTower.position = hit.transform.position + Vector3.up * 0f;
                 if (hit.collider.tag == "Platform")
                 {
-                    shadowTower.gameObject.SetActive(true);
+                    shadowRend = shadowTower.GetComponentsInChildren<Renderer>();
+                    foreach (Renderer rend in shadowRend)
+                    {
+                        rend.enabled = true;
+                    }
                 }
                 else
                 {
-                    shadowTower.gameObject.SetActive(false);
+                    shadowRend = shadowTower.GetComponentsInChildren<Renderer>();
+                    foreach (Renderer rend in shadowRend)
+                    {
+                        rend.enabled = false;
+                    }
                 }
             }
             if (Input.GetMouseButtonDown(0))
@@ -61,16 +74,14 @@ public class TowerPlacement : MonoBehaviour
                     // TODO Pop up text
                     StartCoroutine(PlacingTower());
                 }
-                else
+                else if (!IsLegalPosition() && hit.collider.tag == "Platform")
                 {
-                    Debug.Log("A building already exist");
-                    // TODO Pop up text
+                    StartCoroutine(TowerExistMessage());
                 }
                 if (hit.collider.tag != "Platform")
                 {
                     hasPlaced = false;
-                    Debug.Log("Can not build on the ground, choose a platform instead");
-                    // TODO Pop up text
+                    StartCoroutine(PlatformMessage());
                 }
             }
         }
@@ -98,26 +109,25 @@ public class TowerPlacement : MonoBehaviour
                     {
                         if (oldPlaceableTower != null)
                         {
-                            oldPlaceableTower.SetSelected(false);
-                            //oldPlaceableTower.HideUI();
+                            if (ui)
+                            {
+                                oldPlaceableTower.SetSelected(false);
+                                //oldPlaceableTower.HideUI();
+                                ui = false;
+                            }
+                            else
+                            {
+                                oldPlaceableTower.SetSelected(true);
+                                ui = true;
+                            }
                         }
-                        ui = false;
-                    }
-
-                }
-                else
-                {
-                    if (oldPlaceableTower != null)
-                    {
-                        oldPlaceableTower.SetSelected(false);
-                        //oldPlaceableTower.TowerUI(Vector3.zero);
                     }
                 }
             }
         }
     }
 
-    bool IsLegalPosition()
+    public bool IsLegalPosition()
     {
         if (placeableTower.colliders.Count > 0 || hit.collider.tag != "Platform")
         {
@@ -133,9 +143,8 @@ public class TowerPlacement : MonoBehaviour
             {
                 if (PlayerStats.curMoney < towers[i].cost)
                 {
-                    Debug.Log("Not enough money");
                     gui.cancelButton.SetActive(false);
-                    // TODO Pop up text
+                    StartCoroutine(NotEnoughMoney());
                     return;
                 }
                 hasPlaced = false;
@@ -152,7 +161,7 @@ public class TowerPlacement : MonoBehaviour
             {
                 PlayerStats.curMoney -= towers[i].cost;
                 yield return new WaitForSeconds(buildTime);
-                hasPlaced = false;
+                //hasPlaced = false;
                 currentTower = ((GameObject)Instantiate(towers[i].prefab, shadowTower.position, shadowTower.rotation)).transform;
                 placeableTower = currentTower.GetComponent<PlaceableTower>();
                 Destroy(shadowTower.gameObject);
@@ -162,32 +171,89 @@ public class TowerPlacement : MonoBehaviour
         }
 
     }
-    public void UpgradeTower(GameObject towerToUpgrade)
+    public void UpgradeTower()
     {
         for (int i = 1; i < towers.Length; i++)
         {
-            if (currentTower.name == "Tower" + i.ToString() + "(Clone)")
+            if (currentTower != null)
             {
-                if (PlayerStats.curMoney < towers[i].level2Cost)
+                if (currentTower.name == "Tower" + i.ToString() + "(Clone)")
+                {
+                    if (PlayerStats.curMoney < towers[i].level2Cost)
+                    {
+                        Debug.Log("No Money");
+                        return;
+                    }
+                    else
+                    {
+                        PlayerStats.curMoney -= towers[i].level2Cost;
+                        Debug.Log("Upgrading");
+                        level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, currentTower.position, currentTower.rotation)).transform;
+                        placeableTower = level2Tower.GetComponent<PlaceableTower>();
+                        Destroy(currentTower.gameObject);
+                        return;
+                    }
+                }
+            }
+            else if (level2Tower.name == "Tower" + i.ToString() + "Level2(Clone)")
+            {
+                if (PlayerStats.curMoney < towers[i].level3Cost)
                 {
                     Debug.Log("No Money");
                     return;
                 }
                 else
                 {
-                    level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, currentTower.position, currentTower.rotation)).transform;
-                    placeableTower = level2Tower.GetComponent<PlaceableTower>();
-                    Destroy(currentTower.gameObject);
+                    PlayerStats.curMoney -= towers[i].level3Cost;
+                    Debug.Log("Upgrading");
+                    level3Tower = ((GameObject)Instantiate(towers[i].level3Prefab, level2Tower.position, level2Tower.rotation)).transform;
+                    placeableTower = level3Tower.GetComponent<PlaceableTower>();
+                    Destroy(level2Tower.gameObject);
+                    return;
                 }
-            }
-            else
-            {
-                Debug.Log("NotGood");
             }
         }
     }
-    private void OnMouseDown()
+    public void SellTower()
     {
-
+        for (int i = 1; i < towers.Length; i++)
+        {
+            if (currentTower != null)
+            {
+                if (currentTower.name == "Tower" + i.ToString() + "(Clone)")
+                {
+                    PlayerStats.curMoney += towers[i].sellPrice;                  
+                    Destroy(currentTower.gameObject);
+                    return;
+                }
+            }
+        }
+    }
+    IEnumerator TowerExistMessage()
+    {
+        if (popupMessage.enabled)
+            popupMessage.enabled = false;
+        popupMessage.text = "A tower already exist";
+        popupMessage.enabled = true;
+        yield return new WaitForSeconds(3);
+        popupMessage.enabled = false;
+    }
+    IEnumerator PlatformMessage()
+    {
+        if (popupMessage.enabled)
+            popupMessage.enabled = false;
+        popupMessage.text = "Can not build on the ground, choose a platform instead";
+        popupMessage.enabled = true;
+        yield return new WaitForSeconds(3);
+        popupMessage.enabled = false;
+    }
+    IEnumerator NotEnoughMoney()
+    {
+        if (popupMessage.enabled)
+            popupMessage.enabled = false;
+        popupMessage.text = "Not Enough Money";
+        popupMessage.enabled = true;
+        yield return new WaitForSeconds(3);
+        popupMessage.enabled = false;
     }
 }
