@@ -70,8 +70,7 @@ public class TowerPlacement : MonoBehaviour
                 if (IsLegalPosition())
                 {
                     hasPlaced = true;
-                    Debug.Log("Building");
-                    // TODO Pop up text
+                    StartCoroutine(BuildingTower());
                     StartCoroutine(PlacingTower());
                 }
                 else if (!IsLegalPosition() && hit.collider.tag == "Platform")
@@ -165,7 +164,7 @@ public class TowerPlacement : MonoBehaviour
                 currentTower = ((GameObject)Instantiate(towers[i].prefab, shadowTower.position, shadowTower.rotation)).transform;
                 placeableTower = currentTower.GetComponent<PlaceableTower>();
                 Destroy(shadowTower.gameObject);
-                Debug.Log(currentTower.name + " Built! Money Left: " + PlayerStats.curMoney);
+                StartCoroutine(BuildingTower());
                 gui.cancelButton.SetActive(false);
             }
         }
@@ -181,7 +180,7 @@ public class TowerPlacement : MonoBehaviour
                 {
                     if (PlayerStats.curMoney < towers[i].level2Cost)
                     {
-                        Debug.Log("No Money");
+                        StartCoroutine(NotEnoughMoney());
                         return;
                     }
                     else
@@ -199,7 +198,7 @@ public class TowerPlacement : MonoBehaviour
             {
                 if (PlayerStats.curMoney < towers[i].level3Cost)
                 {
-                    Debug.Log("No Money");
+                    StartCoroutine(NotEnoughMoney());
                     return;
                 }
                 else
@@ -233,7 +232,7 @@ public class TowerPlacement : MonoBehaviour
     {
         if (popupMessage.enabled)
             popupMessage.enabled = false;
-        popupMessage.text = "A tower already exist";
+        popupMessage.text = "A tower already exist.";
         popupMessage.enabled = true;
         yield return new WaitForSeconds(3);
         popupMessage.enabled = false;
@@ -242,7 +241,7 @@ public class TowerPlacement : MonoBehaviour
     {
         if (popupMessage.enabled)
             popupMessage.enabled = false;
-        popupMessage.text = "Can not build on the ground, choose a platform instead";
+        popupMessage.text = "Can not build on the ground, choose a platform instead.";
         popupMessage.enabled = true;
         yield return new WaitForSeconds(3);
         popupMessage.enabled = false;
@@ -251,7 +250,16 @@ public class TowerPlacement : MonoBehaviour
     {
         if (popupMessage.enabled)
             popupMessage.enabled = false;
-        popupMessage.text = "Not Enough Money";
+        popupMessage.text = "Not Enough Money!";
+        popupMessage.enabled = true;
+        yield return new WaitForSeconds(3);
+        popupMessage.enabled = false;
+    }
+    IEnumerator BuildingTower()
+    {
+        if (popupMessage.enabled)
+            popupMessage.enabled = false;
+        popupMessage.text = "Building Tower!";
         popupMessage.enabled = true;
         yield return new WaitForSeconds(3);
         popupMessage.enabled = false;
