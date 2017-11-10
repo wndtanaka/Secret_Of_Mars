@@ -188,8 +188,8 @@ public class TowerPlacement : MonoBehaviour
                         PlayerStats.curMoney -= towers[i].level2Cost;
                         Debug.Log("Upgrading");
                         level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, currentTower.position, currentTower.rotation)).transform;
-                        placeableTower = level2Tower.GetComponent<PlaceableTower>();
-                        Destroy(currentTower.gameObject);
+                        placeableTower = currentTower.GetComponent<PlaceableTower>();
+                        Destroy(hit.transform.gameObject);
                         return;
                     }
                 }

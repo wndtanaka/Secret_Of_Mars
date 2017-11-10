@@ -41,7 +41,7 @@ public class EnemyAI : MonoBehaviour
                     Destroy(gameObject);
                     PlayerStats.curLives--;
                     WaveSpawner.numberOfEnemies--;
-                    camShake.Shake(0.1f,0.2f);
+                    //camShake.Shake(0.1f,0.2f);
                 }
             }
         }

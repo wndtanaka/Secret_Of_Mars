@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: bfc276459a9fc3c4b949d58d1ef61e90
+timeCreated: 1509800997
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Riky Vampdator Normal
+  fontNames:
+  - Riky Vampdator Normal
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
