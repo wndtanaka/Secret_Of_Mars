@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class EnemyTwo : Enemy
 {
-    public float spawnRadius = 6f;
-    public GameObject wormPrefab;
-    protected override void Die()
+
+    // Use this for initialization
+    protected override void Start()
     {
-        base.Die();
-        for (int i = 0; i < 3; i++)
-        {
-            Instantiate(wormPrefab, (Random.insideUnitSphere * spawnRadius) + transform.position, transform.rotation);
-            WaveSpawner.numberOfEnemies++;
-        }
+        startHealth = 60;
+        startSpeed = 6;
+        loot = 40;
+        base.Start();
     }
-    void OnDrawGizmos()
+
+    // Update is called once per frame
+    void Update()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+
     }
 }

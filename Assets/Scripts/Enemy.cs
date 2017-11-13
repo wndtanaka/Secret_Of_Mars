@@ -6,30 +6,29 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public float startSpeed = 3;
-    public float startHealth = 50;
+    public float startSpeed;
+    public float startHealth;
     private float health;
-    public int loot = 25;
+    public int loot;
     private bool isDead = false;
     public NavMeshAgent nav;
 
     public Image healthBar;
     public GameObject enemyHealthBar;
 
-    private void Start()
+    protected virtual void Start()
     {
         health = startHealth;
         nav = GetComponent<NavMeshAgent>();
         nav.speed = startSpeed;
-        //healthBar = GetComponentInChildren<Image>();
     }
     public void TakeDamage(float damage)
     {
-        startHealth -= damage;
+        health -= damage;
 
-        healthBar.fillAmount = startHealth / health;
+        healthBar.fillAmount = health / startHealth;
 
-        if (startHealth <= 0 && !isDead)
+        if (health <= 0 && !isDead)
         {
             Die();
         }

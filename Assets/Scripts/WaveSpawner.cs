@@ -29,7 +29,7 @@ public class WaveSpawner : MonoBehaviour
         if (timer <= 0f)
         {
             StartCoroutine(SpawnWave());
-            timer = 5f;
+            timer = 10f;
             return;
         }
         timer -= Time.deltaTime;
@@ -66,7 +66,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 Instantiate(waveThree[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1.5f);
             }
         }
         else if (waveCount == 4)
