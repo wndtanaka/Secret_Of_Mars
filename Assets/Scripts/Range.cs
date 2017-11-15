@@ -25,7 +25,6 @@ public class Range : MonoBehaviour
     void CreatePoints()
     {
         float x;
-        float y;
         float z;
 
         float angle = 20f;
@@ -35,7 +34,7 @@ public class Range : MonoBehaviour
             x = Mathf.Sin(Mathf.Deg2Rad * angle) * xradius;
             z = Mathf.Cos(Mathf.Deg2Rad * angle) * yradius;
 
-            line.SetPosition(i, new Vector3(x, 0.2f, z));
+            line.SetPosition(i, new Vector3(x, 1f, z));
 
             angle += (360f / segments);
         }

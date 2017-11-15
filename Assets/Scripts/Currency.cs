@@ -9,6 +9,6 @@ public class Currency : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moneyText.text = PlayerStats.curMoney.ToString();
+        moneyText.text = "Energy: " + PlayerStats.curMoney.ToString();
     }
 }

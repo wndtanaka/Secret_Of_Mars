@@ -16,11 +16,10 @@ public class EnemyThree : Enemy
     }
     protected override void Die()
     {
-        Vector3 randPos = new Vector3(Random.insideUnitSphere.x,0,0);
         base.Die();
         for (int i = 0; i < 3; i++)
         {
-            Instantiate(wormPrefab, (randPos * spawnRadius) + transform.position, transform.rotation);
+            Instantiate(wormPrefab, (Random.insideUnitSphere * spawnRadius) + transform.position, transform.rotation);
             WaveSpawner.numberOfEnemies++;
         }
     }

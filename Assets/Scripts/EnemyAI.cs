@@ -6,7 +6,7 @@ using UnityEngine.AI;
 //[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
-    public Transform EndPoint;
+    private GameObject EndPoint;
     private NavMeshAgent nav;
     CameraController camShake;
 
@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         camShake = Camera.main.GetComponent<CameraController>();
+        EndPoint = GameObject.FindGameObjectWithTag("EndPoint");
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (EndPoint != null)
         {
-            nav.SetDestination(EndPoint.position);
+            nav.SetDestination(EndPoint.transform.position);
             nav.updateRotation = false;
         }
         else

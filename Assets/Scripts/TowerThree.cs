@@ -12,7 +12,7 @@ public class TowerThree : Tower
     protected override void Start()
     {
         base.Start();
-        range = 10;
+        range = 13;
         attackSpeed = 0.1f;
         damage = 10;
     }

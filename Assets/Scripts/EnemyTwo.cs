@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class EnemyTwo : Enemy
 {
-
-    // Use this for initialization
-    protected override void Start()
+    protected override void Die()
     {
-        startHealth = 60;
-        startSpeed = 6;
-        loot = 40;
-        base.Start();
+        base.Die();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

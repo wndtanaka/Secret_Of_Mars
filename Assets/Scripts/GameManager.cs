@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour
     }
     public void Retry()
     {
-        SceneManager.LoadScene(0);
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name.ToString());
     }
     public void Menu()
     {

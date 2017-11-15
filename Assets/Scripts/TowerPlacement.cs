@@ -93,14 +93,8 @@ public class TowerPlacement : MonoBehaviour
                 {
                     if (!ui)
                     {
-                        //if (oldPlaceableTower != null)
-                        //{
-                        //    oldPlaceableTower.SetSelected(false);
-                        //    //oldPlaceableTower.HideUI();
-                        //}
                         hit.collider.gameObject.GetComponent<PlaceableTower>().SetSelected(true);
                         oldPlaceableTower = hit.collider.gameObject.GetComponent<PlaceableTower>();
-                        //oldPlaceableTower.TowerUI(hit.transform.position);
 
                         ui = true;
                     }
@@ -111,7 +105,6 @@ public class TowerPlacement : MonoBehaviour
                             if (ui)
                             {
                                 oldPlaceableTower.SetSelected(false);
-                                //oldPlaceableTower.HideUI();
                                 ui = false;
                             }
                             else
@@ -136,6 +129,11 @@ public class TowerPlacement : MonoBehaviour
     }
     public void BuyTower()
     {
+        if (EventSystem.current.currentSelectedGameObject.tag != "Available")
+        {
+            StartCoroutine(LockedTower());
+            return;
+        }
         for (int i = 0; i < towers.Length; i++)
         {
             if (EventSystem.current.currentSelectedGameObject.name == ("Tower" + i.ToString()))
@@ -149,7 +147,7 @@ public class TowerPlacement : MonoBehaviour
                 hasPlaced = false;
                 shadowTower = ((GameObject)Instantiate(towers[i].shadowPrefab)).transform;
                 placeableTower = shadowTower.GetComponent<PlaceableTower>();
-            }
+            } 
         }
     }
     IEnumerator PlacingTower()
@@ -260,6 +258,15 @@ public class TowerPlacement : MonoBehaviour
         if (popupMessage.enabled)
             popupMessage.enabled = false;
         popupMessage.text = "Building Tower!";
+        popupMessage.enabled = true;
+        yield return new WaitForSeconds(3);
+        popupMessage.enabled = false;
+    }
+    IEnumerator LockedTower()
+    {
+        if (popupMessage.enabled)
+            popupMessage.enabled = false;
+        popupMessage.text = "Tower is locked";
         popupMessage.enabled = true;
         yield return new WaitForSeconds(3);
         popupMessage.enabled = false;

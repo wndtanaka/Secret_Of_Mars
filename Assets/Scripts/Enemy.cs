@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public float startSpeed;
-    public float startHealth;
+    public float startSpeed = 3;
+    public float startHealth = 50;
     private float health;
-    public int loot;
+    public int loot = 25;
     private bool isDead = false;
     public NavMeshAgent nav;
 
@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
         health = startHealth;
         nav = GetComponent<NavMeshAgent>();
         nav.speed = startSpeed;
+        //healthBar = GetComponentInChildren<Image>();
     }
     public void TakeDamage(float damage)
     {
