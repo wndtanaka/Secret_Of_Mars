@@ -10,25 +10,30 @@ public class MoveWithinBounds : MonoBehaviour
     public CameraBounds bounds;
 
     public Vector3 cameraRotation;
-    
-    //public RotationalAxis axis = RotationalAxis.MouseX;
+
+    public RotationalAxis axis = RotationalAxis.MouseX;
     public float sensitivityX = 15f;
     public float sensitivityY = 15f;
+    public float minimumX = -60f;
+    public float maximumX = 60f;
     public float minimumY = -60f;
     public float maximumY = 60f;
+    public bool invertY = false;
+    public bool invertX = false;
     private float rotationY = 0;
+    private float rotationX = 0;
     private float currentX = 0f;
 
-    //public enum RotationalAxis
-    //{
-    //    MouseXandY = 0,
-    //    MouseX = 1,
-    //    MouseY = 2
-    //} 
+    public enum RotationalAxis
+    {
+        MouseXandY = 0,
+        MouseX = 1,
+        MouseY = 2
+    }
 
     private void Start()
     {
-        cameraRotation = transform.localEulerAngles;
+        cameraRotation = transform.eulerAngles;
     }
 
     void Update()
@@ -37,7 +42,8 @@ public class MoveWithinBounds : MonoBehaviour
         float inputH = Input.GetAxis("Horizontal");  // get input
         float inputV = Input.GetAxis("Vertical");
 
-        Vector3 inputDir = new Vector3(inputH, 0f, inputV);  // store input in vector (for movement)
+        Vector3 inputDir = new Vector3(inputH, inputV, 0f);  // store input in vector (for movement)
+        inputDir = transform.TransformDirection(inputDir);
         pos += inputDir * movementSpeed * Time.deltaTime;
 
         float inputScroll = Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;  // get scroll wheel
@@ -51,17 +57,36 @@ public class MoveWithinBounds : MonoBehaviour
         {
             currentX += Input.GetAxis("Mouse X") * sensitivityX * Time.deltaTime;
         }
-        //if (axis == RotationalAxis.MouseX && Input.GetMouseButton(1))
-        //{
-        //    rotationY += Input.GetAxis("Mouse X") * sensitivityX;
-        //    rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-        //    transform.localEulerAngles = new Vector3(cameraRotation.x, rotationY, 0);
-        //    //transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
-        //} 
+        if (Input.GetMouseButton(1))
+        {
+            float inputX = Input.GetAxis("Mouse X");
+            float inputY = Input.GetAxis("Mouse Y");
+
+            // Ternary Operator <condition> ? <statement a> : <statement b>
+            inputX = invertX ? -inputX : inputX;
+            inputY = invertY ? -inputY : inputY;
+
+            rotationY += inputX * sensitivityX;
+            //rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
+
+            rotationX += inputY * sensitivityY;
+            //rotationX = Mathf.Clamp(rotationX, minimumX, maximumX);
+
+            switch (axis)
+            {
+                case RotationalAxis.MouseXandY:
+                    transform.eulerAngles = new Vector3(rotationX, rotationY, 0);
+                    break;
+                case RotationalAxis.MouseX:
+                    transform.eulerAngles = new Vector3(cameraRotation.x, rotationY, 0);
+                    break;
+                case RotationalAxis.MouseY:
+                    transform.eulerAngles = new Vector3(rotationX, cameraRotation.y, 0);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
-    private void LateUpdate()
-    {
-        //transform.LookAt(transform.position + Vector3.up);
-        transform.RotateAround(Camera.main.transform.position , Vector3.down, currentX);
-    }
+
 }

@@ -9,7 +9,7 @@ public class EnemyThree : Enemy
 
     protected override void Start()
     {
-        startHealth = 125;
+        startHealth = 200;
         startSpeed = 1;
         loot = 50;
         base.Start();

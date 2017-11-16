@@ -46,7 +46,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 Instantiate(waveOne[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
         else if (waveCount == 2)
@@ -66,7 +66,7 @@ public class WaveSpawner : MonoBehaviour
             {
                 Instantiate(waveThree[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
             }
         }
         else if (waveCount == 4)
@@ -81,12 +81,12 @@ public class WaveSpawner : MonoBehaviour
         }
         else if (waveCount == 5)
         {
-            int totalEnemies = 15;
+            int totalEnemies = 20;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveFive[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
             }
         }
     }
