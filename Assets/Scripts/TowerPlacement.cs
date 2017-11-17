@@ -187,7 +187,7 @@ public class TowerPlacement : MonoBehaviour
                         Debug.Log("Upgrading");
                         level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, currentTower.position, currentTower.rotation)).transform;
                         placeableTower = currentTower.GetComponent<PlaceableTower>();
-                        Destroy(hit.transform.gameObject);
+                        Destroy(currentTower.gameObject);
                         return;
                     }
                 }

@@ -24,7 +24,7 @@ public class WeaponFireBall : Weapon
             return;
         }
 
-        Vector3 velocity = new Vector3(0,-5, 0).normalized * speed;
+        Vector3 velocity = new Vector3(0, -1, 0).normalized * speed;
         transform.position += velocity * Time.deltaTime;
     }
     private void OnTriggerEnter(Collider other)
@@ -33,8 +33,20 @@ public class WeaponFireBall : Weapon
         {
             Destroy(gameObject);
         }
-        FireBallAOE();
+        if (other.tag == "Enemy")
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, fireballAOE);
+            foreach (Collider col in colliders)
+            {
+                DealDamage(col.transform);
+            }
+        }
+        else
+        {
+            return;
+        }
     }
+
     protected override void LateUpdate()
     {
         if (target == null)
@@ -42,17 +54,7 @@ public class WeaponFireBall : Weapon
             Destroy(gameObject);
         }
     }
-    void FireBallAOE()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, fireballAOE);
-        foreach (Collider col in colliders)
-        {
-            if (col.tag == "Enemy")
-            {
-                DealDamage(col.transform);
-            }
-        }
-    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -60,7 +62,7 @@ public class WeaponFireBall : Weapon
     }
     void OnDestroy()
     {
-        GameObject fire =  Instantiate(fireGround,transform.position,transform.rotation) as GameObject;
-        Destroy(fire, 3f);
+        GameObject fire = Instantiate(fireGround, transform.position + new Vector3(0,-1f,0), Quaternion.Euler(90, 0, 0)) as GameObject;
+        Destroy(fire, 5f);
     }
 }
