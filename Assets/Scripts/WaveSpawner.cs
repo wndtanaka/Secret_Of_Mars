@@ -16,7 +16,7 @@ public class WaveSpawner : MonoBehaviour
     [HideInInspector]
     public static int numberOfEnemies;
 
-    private float timer = 10;
+    private float timer = 2;
     private int waveCount = 0;
 
     private void Update()

@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     public Vector3 direction;
 
     public float speed;
-    public int damage;
+    public float damage;
 
     public virtual void Fire(Transform enemy)
     {
@@ -24,7 +24,7 @@ public class Weapon : MonoBehaviour
             return;
         }
         // Homing
-        direction = target.position - transform.position;
+        direction = target.position - transform.position; // look for direction between enemy and firepoint
         float distanceThisFrame = speed * Time.deltaTime;
         if (direction.magnitude <= distanceThisFrame)
         {

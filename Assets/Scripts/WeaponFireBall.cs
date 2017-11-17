@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponBlackHole : Weapon
+public class WeaponFireBall : Weapon
 {
     public float damageOverTime = 5;
-    public float slow = 0.3f;
-    public int slowTime = 3;
-    public float blackHoleAOE = 0f;
+    public float fireballAOE = 2f;
+    public GameObject fireGround;
 
     protected override void DealDamage(Transform enemy)
     {
@@ -15,8 +14,7 @@ public class WeaponBlackHole : Weapon
 
         if (e != null)
         {
-            e.TakeDamage(damageOverTime * Time.deltaTime);
-            StartCoroutine(e.Slow(slow, slowTime));
+            e.TakeDamage(damage);
         }
     }
     protected override void Update()
@@ -25,23 +23,28 @@ public class WeaponBlackHole : Weapon
         {
             return;
         }
-        Vector3 velocity = direction.normalized * speed;
+
+        Vector3 velocity = new Vector3(0,-5, 0).normalized * speed;
         transform.position += velocity * Time.deltaTime;
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        BlackHoleAoE();
+        if (other.tag == "Ground")
+        {
+            Destroy(gameObject);
+        }
+        FireBallAOE();
     }
     protected override void LateUpdate()
     {
         if (target == null)
         {
-            return;
+            Destroy(gameObject);
         }
     }
-    void BlackHoleAoE()
+    void FireBallAOE()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, blackHoleAOE);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, fireballAOE);
         foreach (Collider col in colliders)
         {
             if (col.tag == "Enemy")
@@ -53,6 +56,11 @@ public class WeaponBlackHole : Weapon
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, blackHoleAOE);
+        Gizmos.DrawWireSphere(transform.position, fireballAOE);
+    }
+    void OnDestroy()
+    {
+        GameObject fire =  Instantiate(fireGround,transform.position,transform.rotation) as GameObject;
+        Destroy(fire, 3f);
     }
 }
