@@ -7,12 +7,6 @@ public class CameraBounds : MonoBehaviour
 {
     public Vector3 size = new Vector3(36f, 20f, 30f);
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(transform.position, size);
-    }
-
     // takes in current pos and returns adjusted Pos (constrained)
     public Vector3 GetAdjustedPos(Vector3 incomingPos)
     {

@@ -16,6 +16,7 @@ public class TowerOneLevel2 : Tower
         range = 5;
         attackSpeed = 0.5f;
         damage = 25;
+        attackTimer = 1;
     }
 
     // Update is called once per frame

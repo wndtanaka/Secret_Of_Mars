@@ -9,7 +9,7 @@ public class Tower : MonoBehaviour
     public float range;
     public float attackSpeed;
     public float damage;
-    protected float attackTimer = 1f;
+    protected float attackTimer;
     protected float rotSpeed = 10f;
 
     [Header("References")]

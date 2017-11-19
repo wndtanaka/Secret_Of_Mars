@@ -19,10 +19,10 @@ public class WeaponFireBall : Weapon
     }
     protected override void Update()
     {
-        if (target == null)
-        {
-            return;
-        }
+        //if (target == null)
+        //{
+        //    return;
+        //}
 
         Vector3 velocity = new Vector3(0, -1, 0).normalized * speed;
         transform.position += velocity * Time.deltaTime;
@@ -49,10 +49,10 @@ public class WeaponFireBall : Weapon
 
     protected override void LateUpdate()
     {
-        if (target == null)
-        {
-            Destroy(gameObject);
-        }
+        //if (target == null)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     void OnDrawGizmosSelected()

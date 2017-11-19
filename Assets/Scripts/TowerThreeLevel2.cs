@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerThree : Tower
+public class TowerThreeLevel2 : Tower
 {
-    public Transform rightEye;
-    public LineRenderer lineRendererLeft;
-    public LineRenderer lineRendererRight;
+    public LineRenderer laser;
     public bool useLaser = false;
-    public int damageOverTime = 30;
+    public int damageOverTime = 50;
 
     protected override void Start()
     {
@@ -25,13 +23,9 @@ public class TowerThree : Tower
         {
             if (useLaser)
             {
-                if (lineRendererLeft.enabled)
+                if (laser.enabled)
                 {
-                    lineRendererLeft.enabled = false;
-                }
-                if (lineRendererRight.enabled)
-                {
-                    lineRendererRight.enabled = false;
+                    laser.enabled = false;
                 }
             }
             return;
@@ -45,7 +39,6 @@ public class TowerThree : Tower
         }
         else
         {
-            targetEnemy.nav.speed = 10f;
             if (attackTimer >= attackSpeed)
             {
                 Attack();
@@ -62,17 +55,11 @@ public class TowerThree : Tower
     void Laser()
     {
         targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
-        if (!lineRendererLeft.enabled)
+        if (!laser.enabled)
         {
-            lineRendererLeft.enabled = true;
+            laser.enabled = true;
         }
-        if (!lineRendererRight.enabled)
-        {
-            lineRendererRight.enabled = true;
-        }
-        lineRendererLeft.SetPosition(0, firePoint.position);
-        lineRendererLeft.SetPosition(1, target.position);
-        lineRendererRight.SetPosition(0, rightEye.position);
-        lineRendererRight.SetPosition(1, target.position);
+        laser.SetPosition(0, firePoint.position);
+        laser.SetPosition(1, target.position);
     }
 }

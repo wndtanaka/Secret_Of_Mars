@@ -15,6 +15,8 @@ public class TowerPlacement : MonoBehaviour
     public Transform level3Tower;
     [HideInInspector]
     public Transform shadowTower;
+    [HideInInspector]
+    public GameObject towerOptions;
     private bool hasPlaced = true;
     private PlaceableTower placeableTower;
     private PlaceableTower oldPlaceableTower;
@@ -97,21 +99,15 @@ public class TowerPlacement : MonoBehaviour
                         oldPlaceableTower = hit.collider.gameObject.GetComponent<PlaceableTower>();
 
                         ui = true;
+                        towerOptions = hit.collider.gameObject;
                     }
                     else
                     {
-                        if (oldPlaceableTower != null)
+                        if (ui)
                         {
-                            if (ui)
-                            {
-                                oldPlaceableTower.SetSelected(false);
-                                ui = false;
-                            }
-                            else
-                            {
-                                oldPlaceableTower.SetSelected(true);
-                                ui = true;
-                            }
+                            oldPlaceableTower.SetSelected(false);
+                            ui = false;
+                            towerOptions = null;
                         }
                     }
                 }
@@ -147,7 +143,7 @@ public class TowerPlacement : MonoBehaviour
                 hasPlaced = false;
                 shadowTower = ((GameObject)Instantiate(towers[i].shadowPrefab)).transform;
                 placeableTower = shadowTower.GetComponent<PlaceableTower>();
-            } 
+            }
         }
     }
     IEnumerator PlacingTower()
@@ -168,13 +164,13 @@ public class TowerPlacement : MonoBehaviour
         }
 
     }
-    public void UpgradeTower()
+    public void UpgradeTower(GameObject selectedTower)
     {
         for (int i = 1; i < towers.Length; i++)
         {
-            if (currentTower != null)
+            if (selectedTower != null)
             {
-                if (currentTower.name == "Tower" + i.ToString() + "(Clone)")
+                if (selectedTower.name == "Tower" + i.ToString() + "(Clone)")
                 {
                     if (PlayerStats.curMoney < towers[i].level2Cost)
                     {
@@ -185,14 +181,14 @@ public class TowerPlacement : MonoBehaviour
                     {
                         PlayerStats.curMoney -= towers[i].level2Cost;
                         Debug.Log("Upgrading");
-                        level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, currentTower.position, currentTower.rotation)).transform;
-                        placeableTower = currentTower.GetComponent<PlaceableTower>();
-                        Destroy(currentTower.gameObject);
+                        level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, selectedTower.transform.position, selectedTower.transform.rotation)).transform;
+                        placeableTower = selectedTower.GetComponent<PlaceableTower>();
+                        Destroy(selectedTower.gameObject);
                         return;
                     }
                 }
             }
-            else if (level2Tower.name == "Tower" + i.ToString() + "Level2(Clone)")
+            else if (selectedTower.name == "Tower" + i.ToString() + "Level2(Clone)")
             {
                 if (PlayerStats.curMoney < towers[i].level3Cost)
                 {
@@ -203,24 +199,36 @@ public class TowerPlacement : MonoBehaviour
                 {
                     PlayerStats.curMoney -= towers[i].level3Cost;
                     Debug.Log("Upgrading");
-                    level3Tower = ((GameObject)Instantiate(towers[i].level3Prefab, level2Tower.position, level2Tower.rotation)).transform;
-                    placeableTower = level3Tower.GetComponent<PlaceableTower>();
-                    Destroy(level2Tower.gameObject);
+                    level3Tower = ((GameObject)Instantiate(towers[i].level3Prefab, selectedTower.transform.position, selectedTower.transform.rotation)).transform;
+                    placeableTower = selectedTower.GetComponent<PlaceableTower>();
+                    Destroy(selectedTower.gameObject);
                     return;
                 }
             }
         }
     }
-    public void SellTower()
+    public void SellTower(GameObject sellTower)
     {
         for (int i = 1; i < towers.Length; i++)
         {
-            if (currentTower != null)
+            if (sellTower != null)
             {
-                if (currentTower.name == "Tower" + i.ToString() + "(Clone)")
+                if (sellTower.name == "Tower" + i.ToString() + "(Clone)")
                 {
-                    PlayerStats.curMoney += towers[i].sellPrice;                  
-                    Destroy(currentTower.gameObject);
+                    PlayerStats.curMoney += towers[i].sellPrice;
+                    Destroy(sellTower.gameObject);
+                    return;
+                }
+                else if (sellTower.name == "Tower" + i.ToString() + "Level2(Clone)")
+                {
+                    PlayerStats.curMoney += towers[i].level2SellPrice;
+                    Destroy(sellTower.gameObject);
+                    return;
+                }
+                else if (sellTower.name == "Tower" + i.ToString() + "Level3(Clone)")
+                {
+                    PlayerStats.curMoney += towers[i].level3SellPrice;
+                    Destroy(sellTower.gameObject);
                     return;
                 }
             }

@@ -17,6 +17,7 @@ public class WeaponBlackHole : Weapon
         {
             e.TakeDamage(damageOverTime * Time.deltaTime);
             StartCoroutine(e.Slow(slow, slowTime));
+            Destroy(gameObject, 6f);
         }
     }
     protected override void Update()
@@ -25,12 +26,23 @@ public class WeaponBlackHole : Weapon
         {
             return;
         }
-        Vector3 velocity = direction.normalized * speed;
-        transform.position += velocity * Time.deltaTime;
+        if (direction.magnitude > 0)
+        {
+            Vector3 velocity = new Vector3(0, -1, 0).normalized * speed;
+            transform.position += velocity * Time.deltaTime;
+        }
     }
     private void OnTriggerStay(Collider other)
     {
         BlackHoleAoE();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Ground")
+        {
+            direction = Vector3.zero;
+            Debug.Log("DIE");
+        }
     }
     protected override void LateUpdate()
     {

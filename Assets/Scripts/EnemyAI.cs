@@ -8,7 +8,6 @@ public class EnemyAI : MonoBehaviour
 {
     private GameObject EndPoint;
     private NavMeshAgent nav;
-    CameraController camShake;
 
     // Use this for initialization
     void Awake()
@@ -17,7 +16,6 @@ public class EnemyAI : MonoBehaviour
     }
     void Start()
     {
-        camShake = Camera.main.GetComponent<CameraController>();
         EndPoint = GameObject.FindGameObjectWithTag("EndPoint");
     }
 

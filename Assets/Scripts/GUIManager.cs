@@ -115,6 +115,6 @@ public class GUIManager : MonoBehaviour
     {
         cancelButton.SetActive(false);
         //shopButton.SetActive(true);
-        Destroy(build.shadowTower.gameObject);
+        build.shadowTower = null;
     }
 }

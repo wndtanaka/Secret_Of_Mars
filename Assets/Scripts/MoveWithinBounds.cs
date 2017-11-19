@@ -14,10 +14,6 @@ public class MoveWithinBounds : MonoBehaviour
     public RotationalAxis axis = RotationalAxis.MouseX;
     public float sensitivityX = 15f;
     public float sensitivityY = 15f;
-    public float minimumX = -60f;
-    public float maximumX = 60f;
-    public float minimumY = -60f;
-    public float maximumY = 60f;
     public bool invertY = false;
     public bool invertX = false;
     private float rotationY = 0;
@@ -42,12 +38,12 @@ public class MoveWithinBounds : MonoBehaviour
         float inputH = Input.GetAxis("Horizontal");  // get input
         float inputV = Input.GetAxis("Vertical");
 
-        Vector3 inputDir = new Vector3(inputH, inputV, 0f);  // store input in vector (for movement)
+        Vector3 inputDir = new Vector3(inputH, 0, inputV);  // store input in vector (for movement)
         inputDir = transform.TransformDirection(inputDir);
         pos += inputDir * movementSpeed * Time.deltaTime;
 
         float inputScroll = Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity;  // get scroll wheel
-        Vector3 scrollDir = transform.forward * inputScroll;
+        Vector3 scrollDir = Camera.main.transform.forward * inputScroll;
         pos += scrollDir;
 
         pos = bounds.GetAdjustedPos(pos);  // overwrite original position with adjustedPos
@@ -67,10 +63,8 @@ public class MoveWithinBounds : MonoBehaviour
             inputY = invertY ? -inputY : inputY;
 
             rotationY += inputX * sensitivityX;
-            //rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
 
             rotationX += inputY * sensitivityY;
-            //rotationX = Mathf.Clamp(rotationX, minimumX, maximumX);
 
             switch (axis)
             {

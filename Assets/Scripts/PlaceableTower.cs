@@ -26,14 +26,14 @@ public class PlaceableTower : MonoBehaviour
             {
                 isSelected = false;
                 TowerPlacement.ui = false;
-                towerPlacement.UpgradeTower();
+                towerPlacement.UpgradeTower(towerPlacement.towerOptions);
             }
             if (GUI.Button(new Rect(9.25f * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f), "Sell"))
             {
                 Debug.Log("Sell");
                 isSelected = false;
                 TowerPlacement.ui = false;
-                towerPlacement.SellTower();
+                towerPlacement.SellTower(towerPlacement.towerOptions);
             }
         }
     }
