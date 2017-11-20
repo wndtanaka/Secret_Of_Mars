@@ -41,7 +41,6 @@ public class WeaponBlackHole : Weapon
         if (other.tag == "Ground")
         {
             direction = Vector3.zero;
-            Debug.Log("DIE");
         }
     }
     protected override void LateUpdate()

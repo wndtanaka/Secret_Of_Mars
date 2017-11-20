@@ -49,7 +49,7 @@ public class TowerPlacement : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~towerMask, QueryTriggerInteraction.Collide))
             {
-                shadowTower.position = hit.transform.position + Vector3.up * 0f;
+                shadowTower.position = hit.transform.position + Vector3.up * 0.75f;
                 if (hit.collider.tag == "Platform")
                 {
                     shadowRend = shadowTower.GetComponentsInChildren<Renderer>();

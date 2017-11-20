@@ -16,10 +16,13 @@ public class Enemy : MonoBehaviour
     public Image healthBar;
     public GameObject enemyHealthBar;
 
+    void Awake()
+    {
+        nav = GetComponentInParent<NavMeshAgent>();
+    }
     protected virtual void Start()
     {
         health = startHealth;
-        nav = GetComponent<NavMeshAgent>();
         nav.speed = startSpeed;
         //healthBar = GetComponentInChildren<Image>();
     }

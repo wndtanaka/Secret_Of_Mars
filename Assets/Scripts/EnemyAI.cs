@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        nav = GetComponent<NavMeshAgent>();
+        nav = GetComponentInParent<NavMeshAgent>();
     }
     void Start()
     {
@@ -25,7 +25,6 @@ public class EnemyAI : MonoBehaviour
         if (EndPoint != null)
         {
             nav.SetDestination(EndPoint.transform.position);
-            nav.updateRotation = false;
         }
         else
         {
