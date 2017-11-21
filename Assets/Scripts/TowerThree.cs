@@ -13,7 +13,7 @@ public class TowerThree : Tower
     protected override void Start()
     {
         base.Start();
-        range = 13;
+        range = 10;
         attackSpeed = 0.1f;
         damage = 10;
     }
@@ -21,21 +21,19 @@ public class TowerThree : Tower
     // Update is called once per frame
     protected override void Update()
     {
-        if (target == null)
+        if (target == null && useLaser)
         {
-            if (useLaser)
+            if (lineRendererLeft.enabled)
             {
-                if (lineRendererLeft.enabled)
-                {
-                    lineRendererLeft.enabled = false;
-                }
-                if (lineRendererRight.enabled)
-                {
-                    lineRendererRight.enabled = false;
-                }
+                lineRendererLeft.enabled = false;
+            }
+            if (lineRendererRight.enabled)
+            {
+                lineRendererRight.enabled = false;
             }
             return;
         }
+
         // look for target
         LockOnTarget();
 
@@ -61,6 +59,7 @@ public class TowerThree : Tower
     }
     void Laser()
     {
+        targetEnemy = target.GetComponent<Enemy>();
         targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
         if (!lineRendererLeft.enabled)
         {

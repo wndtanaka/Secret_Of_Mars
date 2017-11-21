@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        nav = GetComponentInParent<NavMeshAgent>();
+        nav = GetComponent<NavMeshAgent>();
     }
     void Start()
     {
@@ -39,7 +39,6 @@ public class EnemyAI : MonoBehaviour
                     Destroy(gameObject);
                     PlayerStats.curLives--;
                     WaveSpawner.numberOfEnemies--;
-                    //camShake.Shake(0.1f,0.2f);
                 }
             }
         }

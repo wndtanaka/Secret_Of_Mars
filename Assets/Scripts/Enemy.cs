@@ -6,21 +6,22 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Base Enemy")]
     public float startSpeed = 3;
     public float startHealth = 70;
-    private float health;
     public int loot = 15;
-    private bool isDead = false;
     public NavMeshAgent nav;
-
     public Image healthBar;
     public GameObject enemyHealthBar;
 
+    private float health;
+    private bool isDead = false;
+    
     void Awake()
     {
-        nav = GetComponentInParent<NavMeshAgent>();
+        nav = GetComponent<NavMeshAgent>();
     }
-    protected virtual void Start()
+    protected void Start()
     {
         health = startHealth;
         nav.speed = startSpeed;

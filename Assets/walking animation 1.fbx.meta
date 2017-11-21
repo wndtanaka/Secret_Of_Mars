@@ -30,7 +30,7 @@ ModelImporter:
     400020: Lamp
     400022: //RootNode
     4300000: Cube.001
-    7400000: Walk
+    7400000: WalkingWorm
     7400002: Armature|LampAction
     7400004: Lamp|LampAction
     9500000: //RootNode
@@ -58,7 +58,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walk
+      name: WalkingWorm
       takeName: Armature|ArmatureAction.001
       firstFrame: 0
       lastFrame: 18

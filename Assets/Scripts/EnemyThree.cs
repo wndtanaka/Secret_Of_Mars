@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class EnemyThree : Enemy
 {
+    [Header("EnemyThree")]
     public float spawnRadius = 6f;
     public GameObject wormPrefab;
-
-    protected override void Start()
-    {
-        startHealth = 200;
-        startSpeed = 1;
-        loot = 50;
-        base.Start();
-    }
+    
     protected override void Die()
     {
         base.Die();

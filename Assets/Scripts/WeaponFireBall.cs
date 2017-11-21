@@ -6,7 +6,9 @@ public class WeaponFireBall : Weapon
 {
     public float damageOverTime = 5;
     public float fireballAOE = 2f;
+    public LayerMask enemyMask;
     public GameObject fireGround;
+    private bool markForDestroy = false;
 
     protected override void DealDamage(Transform enemy)
     {
@@ -23,36 +25,30 @@ public class WeaponFireBall : Weapon
         //{
         //    return;
         //}
-
         Vector3 velocity = new Vector3(0, -1, 0).normalized * speed;
         transform.position += velocity * Time.deltaTime;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Ground")
+
+        if (markForDestroy)
         {
-            Destroy(gameObject);
-        }
-        if (other.tag == "Enemy")
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, fireballAOE);
-            foreach (Collider col in colliders)
+            Collider[] colliders = Physics.OverlapSphere(transform.position, fireballAOE, enemyMask);
+            for (int i = 0; i < colliders.Length; i++)
             {
+                Collider col = colliders[i];
                 DealDamage(col.transform);
             }
+
+            // Kill of fireball always
+            Destroy(gameObject);
         }
-        else
-        {
-            return;
-        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        markForDestroy = true;
     }
 
     protected override void LateUpdate()
     {
-        //if (target == null)
-        //{
-        //    Destroy(gameObject);
-        //}
     }
 
     void OnDrawGizmosSelected()
@@ -62,7 +58,7 @@ public class WeaponFireBall : Weapon
     }
     void OnDestroy()
     {
-        GameObject fire = Instantiate(fireGround, transform.position + new Vector3(0,-1f,0), Quaternion.Euler(90, 0, 0)) as GameObject;
+        GameObject fire = Instantiate(fireGround, transform.position + new Vector3(0, -1f, 0), Quaternion.Euler(90, 0, 0)) as GameObject;
         Destroy(fire, 5f);
     }
 }

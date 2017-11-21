@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    public enum DetectionMode
+    {
+        ClosestToEnd = 0,
+        ClosestToTower = 1,
+        FurthestToEnd = 2,
+        FurthestToTower = 3
+    }
     protected Transform target;
     [Header("Tower Attributes")]
+    public DetectionMode detectMode = DetectionMode.ClosestToTower;
     public float range;
     public float attackSpeed;
     public float damage;
@@ -18,6 +26,7 @@ public class Tower : MonoBehaviour
     public Transform rotCannon;
     private string enemyTag = "Enemy";
     protected Enemy targetEnemy;
+    public Transform endPoint;
 
     // Use this for initialization
     protected virtual void Start()
@@ -67,27 +76,55 @@ public class Tower : MonoBehaviour
 
     protected virtual void UpdateTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float closest = Mathf.Infinity;
         GameObject nearestEnemy = null;
-        foreach (GameObject enemy in enemies)
+
+        switch (detectMode)
         {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distance < closest)
-            {
-                closest = distance;
-                nearestEnemy = enemy;
-            }
+            case DetectionMode.ClosestToEnd:
+                nearestEnemy = GetClosestEnemyToPoint(endPoint.position);
+                break;
+            case DetectionMode.ClosestToTower:
+                nearestEnemy = GetClosestEnemyToPoint(transform.position);
+                break;
+            case DetectionMode.FurthestToEnd:
+                break;
+            case DetectionMode.FurthestToTower:
+                break;
+            default:
+                nearestEnemy = GetClosestEnemyToPoint(transform.position);
+                break;
         }
-        if (nearestEnemy != null && closest <= range)
+
+        if (nearestEnemy != null)
         {
-            target = nearestEnemy.transform;
-            targetEnemy = nearestEnemy.GetComponent<Enemy>();
+            float closest = Vector3.Distance(nearestEnemy.transform.position, transform.position);
+            if (closest <= range)
+            {
+                target = nearestEnemy.transform;
+                targetEnemy = nearestEnemy.GetComponent<Enemy>();
+            }
         }
         else
         {
             target = null;
         }
+    }
+
+    GameObject GetClosestEnemyToPoint(Vector3 point)
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        float closest = Mathf.Infinity;
+        GameObject nearestEnemy = null;
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(point, enemy.transform.position);
+            if (distance < closest)
+            {
+                closest = distance; 
+                nearestEnemy = enemy;
+            }
+        }
+        return nearestEnemy;
     }
 
     void OnDrawGizmosSelected()

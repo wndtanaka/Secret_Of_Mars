@@ -6,6 +6,8 @@ public class WeaponFireGroundDPS : Weapon
 {
     public float damageOverTime = 5;
     public float burnAOE = 2;
+    public LayerMask enemyMask;
+    private bool markForDestroy = false;
 
     protected override void DealDamage(Transform enemy)
     {
@@ -14,21 +16,24 @@ public class WeaponFireGroundDPS : Weapon
         if (e != null)
         {
             e.TakeDamage(damageOverTime * Time.deltaTime);
+            Destroy(gameObject, 5f);
         }
     }
     void OnTriggerStay()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, burnAOE);
-        foreach (Collider col in colliders)
-        {
-            if (col.tag == "Enemy")
-            {
-                DealDamage(col.transform);
-            }
-        }
+        markForDestroy = true;
     }
     protected override void Update()
     {
+        if (markForDestroy)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, burnAOE, enemyMask);
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                Collider col = colliders[i];
+                DealDamage(col.transform);
+            }
+        }
     }
     protected override void LateUpdate()
     {
