@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     public static int curLives;
     public int startLives = 20;
 
-    void Start()
+    void Awake()
     { 
         curMoney = startMoney;
         curLives = startLives;   

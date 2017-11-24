@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TowerPlacement : MonoBehaviour
 {
     public LayerMask towerMask;
-    private int buildTime = 1;
+    private float buildTime = 0.3f;
 
     private Transform currentTower;
     private Transform level2Tower;
@@ -180,7 +180,6 @@ public class TowerPlacement : MonoBehaviour
                     else
                     {
                         PlayerStats.curMoney -= towers[i].level2Cost;
-                        Debug.Log("Upgrading");
                         level2Tower = ((GameObject)Instantiate(towers[i].level2Prefab, selectedTower.transform.position, selectedTower.transform.rotation)).transform;
                         placeableTower = selectedTower.GetComponent<PlaceableTower>();
                         Destroy(selectedTower.gameObject);
@@ -198,7 +197,6 @@ public class TowerPlacement : MonoBehaviour
                 else
                 {
                     PlayerStats.curMoney -= towers[i].level3Cost;
-                    Debug.Log("Upgrading");
                     level3Tower = ((GameObject)Instantiate(towers[i].level3Prefab, selectedTower.transform.position, selectedTower.transform.rotation)).transform;
                     placeableTower = selectedTower.GetComponent<PlaceableTower>();
                     Destroy(selectedTower.gameObject);
