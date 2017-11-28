@@ -44,7 +44,8 @@ public class WeaponFireBall : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
-        markForDestroy = true;
+        if (other.gameObject.tag == "Ground")
+            markForDestroy = true;
     }
 
     protected override void LateUpdate()

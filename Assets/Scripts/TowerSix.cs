@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TowerSix : Tower
 {
+    AudioSource blackHoleSound;
+
+    private void Awake()
+    {
+        blackHoleSound = GameObject.Find("BlackHoleSound").GetComponent<AudioSource>();
+    }
+
     protected override void Start()
     {
         attackTimer = 5f;
@@ -17,6 +24,7 @@ public class TowerSix : Tower
         projectile.direction = target.position - transform.position;
         if (projectile != null)
         {
+            blackHoleSound.Play(); 
             projectile.Fire(target);
         }
     }

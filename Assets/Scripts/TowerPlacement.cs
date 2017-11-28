@@ -9,6 +9,10 @@ public class TowerPlacement : MonoBehaviour
     public LayerMask towerMask;
     private float buildTime = 0.3f;
 
+    [Header("References")]
+    public Transform endPoint;
+
+    [Header("Tower Parameters")]    
     private Transform currentTower;
     private Transform level2Tower;
     [HideInInspector]
@@ -160,6 +164,9 @@ public class TowerPlacement : MonoBehaviour
                 Destroy(shadowTower.gameObject);
                 StartCoroutine(BuildingTower());
                 gui.cancelButton.SetActive(false);
+
+                Tower currentT = currentTower.GetComponent<Tower>();
+                currentT.endPoint = endPoint;
             }
         }
 

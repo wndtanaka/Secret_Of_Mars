@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TowerFour : Tower {
 
+    AudioSource fireBallSound;
+
+    private void Awake()
+    {
+        fireBallSound = GameObject.Find("FireBallSound").GetComponent<AudioSource>(); 
+    }
+
     protected override void Start()
     {
         attackTimer = 3f;
@@ -17,6 +24,7 @@ public class TowerFour : Tower {
         //projectile.direction = target.position - transform.position;
         if (projectile != null)
         {
+            fireBallSound.Play();
             projectile.Fire(target);
         }
     }
