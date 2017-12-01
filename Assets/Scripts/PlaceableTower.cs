@@ -9,9 +9,7 @@ public class PlaceableTower : MonoBehaviour
     public GUISkin skin;
     public TowerPlacement towerPlacement;
 
-    TowerManagement[] towers;
     private bool isSelected;
-    Vector3 mousePos;
 
     void Start()
     {
@@ -24,72 +22,20 @@ public class PlaceableTower : MonoBehaviour
         float scrW = Screen.width / 16;
         float scrH = Screen.height / 9;
 
-        mousePos = new Vector3(Input.mousePosition.x, Screen.height - Input.mousePosition.y, Input.mousePosition.y);
-
-        Rect upgradeButton = new Rect(6.75f * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f);
-        Rect sellButton = new Rect(8f * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f);
-
         if (isSelected)
         {
-            for (int i = 0; i < towerPlacement.towers.Length; i++)
+            GUI.Box(new Rect(6.75f * scrW, 7.5f * scrH, scrW * 2.5f, scrH * 0.5f), NameChanger(towerPlacement.towerOptions.name));
+            if (GUI.Button(new Rect(6.75f * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f), "Upgrade"))
             {
-                GUI.Box(new Rect(6.75f * scrW, 7.5f * scrH, scrW * 2.5f, scrH * 0.5f), NameChanger(towerPlacement.towerOptions.name));
-                if (upgradeButton.Contains(mousePos))
-                {
-                    if (towerPlacement.towerOptions.name == "Tower" + i.ToString() + "(Clone)")
-                    {
-                        if (GUI.Button(upgradeButton, towerPlacement.towers[i].level2Cost.ToString() + " Energy"))
-                        {
-                            isSelected = false;
-                            TowerPlacement.ui = false;
-                            towerPlacement.UpgradeTower(towerPlacement.towerOptions);
-                        }
-                    }
-                    else
-                    {
-                        if (towerPlacement.towerOptions.name == "Tower" + i.ToString() + "Level2(Clone)")
-                        {
-                            GUI.Button(upgradeButton, "Max Level");
-                        }
-                    }
-                }
-                else
-                {
-                    if (towerPlacement.towerOptions.name == "Tower" + i.ToString() + "Level2(Clone)")
-                    {
-                        GUI.Button(upgradeButton, "Max Level");
-                    }
-                    else
-                    {
-                        GUI.Button(upgradeButton, "Upgrade");
-                    }
-                }
-                if (sellButton.Contains(mousePos))
-                {
-                    if (towerPlacement.towerOptions.name == "Tower" + i.ToString() + "(Clone)")
-                    {
-                        if (GUI.Button(sellButton, towerPlacement.towers[i].sellPrice.ToString() + " Energy"))
-                        {
-                            isSelected = false;
-                            TowerPlacement.ui = false;
-                            towerPlacement.SellTower(towerPlacement.towerOptions);
-                        }
-                    }
-                    else if (towerPlacement.towerOptions.name == "Tower" + i.ToString() + "Level2(Clone)")
-                    {
-                        if (GUI.Button(sellButton, towerPlacement.towers[i].level2SellPrice.ToString() + " Energy"))
-                        {
-                            isSelected = false;
-                            TowerPlacement.ui = false;
-                            towerPlacement.SellTower(towerPlacement.towerOptions);
-                        }
-                    }
-
-                }
-                else
-                {
-                    GUI.Button(sellButton, "Sell");
-                }
+                isSelected = false;
+                TowerPlacement.ui = false;
+                towerPlacement.UpgradeTower(towerPlacement.towerOptions);
+            }
+            if (GUI.Button(new Rect(8f * scrW, 8 * scrH, scrW * 1.25f, scrH * 0.5f), "Sell"))
+            {
+                isSelected = false;
+                TowerPlacement.ui = false;
+                towerPlacement.SellTower(towerPlacement.towerOptions);
             }
         }
     }

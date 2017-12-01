@@ -19,7 +19,7 @@ public class TowerSix : Tower
     // Use this for initialization
     protected override void Attack()
     {
-        GameObject blackHole = Instantiate(bulletPrefab, target.position + new Vector3(0, 15f, 0), firePoint.rotation) as GameObject;
+        GameObject blackHole = Instantiate(bulletPrefab, target.position + new Vector3(-2f, 15f, 0), firePoint.rotation) as GameObject;
         WeaponBlackHole projectile = blackHole.GetComponent<WeaponBlackHole>();
         projectile.direction = target.position - transform.position;
         if (projectile != null)

@@ -14,23 +14,13 @@ public class WaveSpawner : MonoBehaviour
     public Transform[] waveSix;
     public Transform[] spawnPoint;
     public Text waveCountdownText;
-    public GameObject stageClearUI;
-    public GameObject gameOverUI;
-    private GameObject countDown;
 
     [HideInInspector]
     public static int numberOfEnemies;
 
-    [HideInInspector]
-    public float timer = 10;
+    private float timer = 10;
     private int waveCount = 0;
     private int levelIndicator;
-
-    void Start()
-    {
-        //countDown = GameObject.Find("Countdown");
-        //waveCountdownText = countDown.GetComponent<Text>();
-    }
 
     private void Update()
     {
@@ -57,6 +47,7 @@ public class WaveSpawner : MonoBehaviour
         }
         timer -= Time.deltaTime;
         waveCountdownText.text = Mathf.Round(timer).ToString();
+
     }
 
     IEnumerator SpawnWaveLevel1()
@@ -124,14 +115,9 @@ public class WaveSpawner : MonoBehaviour
         }
         else if (waveCount >= 7)
         {
-            //SceneManager.LoadScene("Level2");
-            if (!gameOverUI.activeSelf && !stageClearUI.activeSelf)
-            {
-                stageClearUI.SetActive(true);
-            }
+            SceneManager.LoadScene("Level2");
         }
     }
-
     IEnumerator SpawnWaveLevel2()
     {
         waveCount++;
@@ -197,85 +183,75 @@ public class WaveSpawner : MonoBehaviour
         }
         else if (waveCount >= 7)
         {
-            if (!gameOverUI.activeSelf && !stageClearUI.activeSelf)
-            {
-                stageClearUI.SetActive(true);
-            }
+            SceneManager.LoadScene("Level3");
         }
-        Debug.Log(waveCount);
     }
-
     IEnumerator SpawnWaveLevel3()
     {
         waveCount++;
         if (waveCount == 1)
         {
-            int totalEnemies = 30;
+            int totalEnemies = 15;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveOne[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
             }
         }
         else if (waveCount == 2)
         {
-            int totalEnemies = 60;
+            int totalEnemies = 30;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveTwo[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
             }
         }
         else if (waveCount == 3)
         {
-            int totalEnemies = 100;
+            int totalEnemies = 50;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveThree[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(1f);
             }
         }
         else if (waveCount == 4)
         {
-            int totalEnemies = 160;
+            int totalEnemies = 80;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveFour[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(1f);
             }
         }
         else if (waveCount == 5)
         {
-            int totalEnemies = 300;
+            int totalEnemies = 120;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveFive[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(1f);
             }
         }
         else if (waveCount == 6)
         {
-            int totalEnemies = 600;
+            int totalEnemies = 200;
             for (int i = 0; i < totalEnemies; i++)
             {
                 Instantiate(waveSix[i], spawnPoint[Random.Range(0, spawnPoint.Length)].position, spawnPoint[Random.Range(0, spawnPoint.Length)].rotation);
                 numberOfEnemies++;
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
         else if (waveCount >= 7)
         {
-            if (!gameOverUI.activeSelf && !stageClearUI.activeSelf)
-            {
-                stageClearUI.SetActive(true);
-            }
-            waveCount = 0;
+            SceneManager.LoadScene("WinScene");
         }
     }
-
 }

@@ -6,15 +6,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject gameOverUI;
-    public GameObject stageClearUI;
-    public static bool gameOver;
 
-    WaveSpawner waveSpawner;
+    public static bool gameOver;
 
     private void Start()
     {
         gameOver = false;
-        waveSpawner = GetComponent<WaveSpawner>();
     }
     // Update is called once per frame
     void Update()
@@ -32,25 +29,12 @@ public class GameManager : MonoBehaviour
     }
     public void Retry()
     {
-        WaveSpawner.numberOfEnemies = 0;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name.ToString());
     }
-
-    public void NextLevel()
-    {
-        if (stageClearUI.activeSelf)
-        {
-            stageClearUI.SetActive(false);
-        }
-        WaveSpawner.numberOfEnemies = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
     public void Exit()
     {
         //Debug.Log("Back to Main Menu!");
-        WaveSpawner.numberOfEnemies = 0;
         SceneManager.LoadScene(0); 
     }
 }
