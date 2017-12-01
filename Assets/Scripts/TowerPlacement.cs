@@ -194,22 +194,22 @@ public class TowerPlacement : MonoBehaviour
                     }
                 }
             }
-            else if (selectedTower.name == "Tower" + i.ToString() + "Level2(Clone)")
-            {
-                if (PlayerStats.curMoney < towers[i].level3Cost)
-                {
-                    StartCoroutine(NotEnoughMoney());
-                    return;
-                }
-                else
-                {
-                    PlayerStats.curMoney -= towers[i].level3Cost;
-                    level3Tower = ((GameObject)Instantiate(towers[i].level3Prefab, selectedTower.transform.position, selectedTower.transform.rotation)).transform;
-                    placeableTower = selectedTower.GetComponent<PlaceableTower>();
-                    Destroy(selectedTower.gameObject);
-                    return;
-                }
-            }
+            //else if (selectedTower.name == "Tower" + i.ToString() + "Level2(Clone)")
+            //{
+            //    if (PlayerStats.curMoney < towers[i].level3Cost)
+            //    {
+            //        StartCoroutine(NotEnoughMoney());
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        PlayerStats.curMoney -= towers[i].level3Cost;
+            //        level3Tower = ((GameObject)Instantiate(towers[i].level3Prefab, selectedTower.transform.position, selectedTower.transform.rotation)).transform;
+            //        placeableTower = selectedTower.GetComponent<PlaceableTower>();
+            //        Destroy(selectedTower.gameObject);
+            //        return;
+            //    }
+            //}
         }
     }
     public void SellTower(GameObject sellTower)
@@ -230,12 +230,12 @@ public class TowerPlacement : MonoBehaviour
                     Destroy(sellTower.gameObject);
                     return;
                 }
-                else if (sellTower.name == "Tower" + i.ToString() + "Level3(Clone)")
-                {
-                    PlayerStats.curMoney += towers[i].level3SellPrice;
-                    Destroy(sellTower.gameObject);
-                    return;
-                }
+                //else if (sellTower.name == "Tower" + i.ToString() + "Level3(Clone)")
+                //{
+                //    PlayerStats.curMoney += towers[i].level3SellPrice;
+                //    Destroy(sellTower.gameObject);
+                //    return;
+                //}
             }
         }
     }

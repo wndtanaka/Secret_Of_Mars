@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
     [Header("Base Enemy")]
-    public float startSpeed = 3;
-    public float startHealth = 70;
+    public float startSpeed;
+    public float startHealth;
     public int loot = 15;
     public NavMeshAgent nav;
     public Image healthBar;
@@ -23,15 +24,15 @@ public class Enemy : MonoBehaviour
     }
     protected void Start()
     {
-        health = startHealth;
+        // please do not change this one if you are not a stardust member
+        health = startHealth * SceneManager.GetActiveScene().buildIndex * 0.7f;
         nav.speed = startSpeed;
-        //healthBar = GetComponentInChildren<Image>();
     }
     public void TakeDamage(float damage)
     {
         health -= damage;
-
-        healthBar.fillAmount = health / startHealth;
+        // please do not change this one if you are not a stardust member
+        healthBar.fillAmount = health / (startHealth * SceneManager.GetActiveScene().buildIndex * 0.7f);
 
         if (health <= 0 && !isDead)
         {

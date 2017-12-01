@@ -336,8 +336,15 @@ public class StartMenu : MonoBehaviour
 
     public void Restart()  // Pause Menu restart button
     {
+        WaveSpawner.numberOfEnemies = 0;
         SceneManager.LoadScene(0);
         Time.timeScale = 1;
     }
 
+    public void FinalStage()
+    {
+        WaveSpawner.numberOfEnemies = 0;
+        SceneManager.LoadScene(3);
+        Time.timeScale = 1;
+    }
 }
