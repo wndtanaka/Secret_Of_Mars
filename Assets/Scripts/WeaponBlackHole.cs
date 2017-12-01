@@ -19,7 +19,7 @@ public class WeaponBlackHole : Weapon
         {
             e.TakeDamage(damageOverTime * Time.deltaTime);
             StartCoroutine(e.Slow(slow, slowTime));
-            Destroy(gameObject, 6f);
+            Destroy(gameObject, 5.9f);
         }
     }
     protected override void Update()
@@ -45,10 +45,10 @@ public class WeaponBlackHole : Weapon
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ground")
+        if (other.gameObject.tag == "Ground")
         {
             direction = Vector3.zero;
-            transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.05f, transform.position.z);
         }
     }
     protected override void LateUpdate()

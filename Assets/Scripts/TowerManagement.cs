@@ -15,7 +15,7 @@ public class TowerManagement
     public int level2Cost;
     public int level2SellPrice;
 
-    public GameObject level3Prefab;
-    public int level3Cost;
-    public int level3SellPrice;
+    //public GameObject level3Prefab;
+    //public int level3Cost;
+    //public int level3SellPrice;
 }

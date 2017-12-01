@@ -6,7 +6,7 @@ using UnityEngine.AI;
 //[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
 {
-    private GameObject EndPoint;
+    private GameObject endPoint;
     private NavMeshAgent nav;
 
     // Use this for initialization
@@ -16,15 +16,15 @@ public class EnemyAI : MonoBehaviour
     }
     void Start()
     {
-        EndPoint = GameObject.FindGameObjectWithTag("EndPoint");
+        endPoint = GameObject.FindGameObjectWithTag("EndPoint");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (EndPoint != null)
+        if (endPoint != null)
         {
-            nav.SetDestination(EndPoint.transform.position);
+            nav.SetDestination(endPoint.transform.position);
         }
         else
         {
@@ -42,5 +42,6 @@ public class EnemyAI : MonoBehaviour
                 }
             }
         }
+
     }
 }
